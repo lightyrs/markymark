@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
          user.name = auth['info']['name'] || ""
          user.email = auth['info']['email'] || ""
       end
+      if auth['credentials'] && auth['credentials']['token']
+        user.facebook_token = auth['credentials']['token']
+      end
     end
   end
 

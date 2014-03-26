@@ -28,6 +28,7 @@ GEM
     addressable (2.3.6)
     arel (4.0.2)
     atomic (1.1.16)
+    awesome_print (1.2.0)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -97,6 +98,10 @@ GEM
     json (1.8.1)
     jwt (0.1.11)
       multi_json (>= 1.5)
+    koala (1.9.0)
+      addressable
+      faraday
+      multi_json
     launchy (2.4.2)
       addressable (~> 2.3)
     mail (2.5.4)
@@ -205,6 +210,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   better_errors
   binding_of_caller
   bootstrap-sass
@@ -219,6 +225,7 @@ DEPENDENCIES
   hub
   jbuilder (~> 1.2)
   jquery-rails
+  koala
   mysql2
   omniauth
   omniauth-facebook
