@@ -18,6 +18,12 @@ gem 'thin'
 gem 'koala'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
+gem 'metainspector'
+
+gem 'therubyracer', platforms: :ruby
+gem 'less-rails-bootstrap'
+gem 'jquery-ui-rails'
+gem 'designmodo-flatuipro-rails', '~> 1.2.5.0.branch'
 
 group :development do
   gem 'better_errors'

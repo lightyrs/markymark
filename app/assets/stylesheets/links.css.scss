@@ -1,3 +1,37 @@
-// Place all the styles related to the Links controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'mixins';
+
+.links {
+
+  &.media-list {
+    padding-top: 20px;
+  }
+}
+
+.link {
+
+  &.media {
+
+    > .pull-left {
+        margin-right: 20px;
+    }
+  }
+
+  p {
+    @include wrap-text;
+
+    &.lead {
+      margin-bottom: 0;
+    }
+  }
+
+  .img-64x64 {
+    width: 64px;
+  }
+
+  .img-placeholder {
+
+    &.img-64x64 {
+      height: 64px;
+    }
+  }
+}

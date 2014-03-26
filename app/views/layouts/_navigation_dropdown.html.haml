@@ -1,0 +1,16 @@
+%ul.nav.navbar-nav.navbar-right
+  %li.dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+      = current_user.name
+      %b.caret
+    %span.dropdown-arrow
+    %ul.dropdown-menu
+      %li
+        %a{href: "#"} Action
+      %li
+        %a{href: "#"} Another action
+      %li
+        %a{href: "#"} Something else here
+      %li.divider
+      %li
+        %a{href: "#"} Separated link

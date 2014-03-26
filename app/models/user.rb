@@ -40,8 +40,8 @@ class User < ActiveRecord::Base
   end
 
   def create_links(links)
-    begin
-      links.each do |link|
+    links.each do |link|
+      begin
         self.links.create(
           title: link['name'],
           description: link['description'],
@@ -49,9 +49,9 @@ class User < ActiveRecord::Base
           image_url: link['picture'],
           posted_at: DateTime.parse(link['created_time'])
         )
+      rescue StandardError => e
+        puts "#{e.class}: #{e.message}"
       end
-    rescue => e
-      puts "#{e.class}: #{e.message}"
     end
   end
 end

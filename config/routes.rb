@@ -1,10 +1,11 @@
 Markymark::Application.routes.draw do
 
-  resources :links
-
+  get "flatuipro_demo/index"
   root to: 'home#index'
 
-  resources :users, only: [ :index, :show, :edit, :update ]
+  resources :users, only: [ :index, :show ]
+
+  resources :links
 
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', as: :signin

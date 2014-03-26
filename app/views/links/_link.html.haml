@@ -1,0 +1,14 @@
+= content_tag_for :li, link, class: 'media' do
+  - if link.image_url
+    = link_to image_tag(link.image_url, class: 'media-object img-rounded img-responsive img-64x64', alt: link.title), link.url, class: 'pull-left'
+  - else
+    .pull-left
+      .img-placeholder.img-64x64
+  .media-body
+    %h6.media-heading= link_to link.title, link.url, target: '_blank'
+    %p= link.description
+
+-# = link.posted_at
+-# = link.content
+-# = link.domain
+-# = link_to 'Show', link
