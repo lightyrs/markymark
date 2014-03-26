@@ -10,4 +10,7 @@ Markymark::Application.routes.draw do
   get '/signin' => 'sessions#new', as: :signin
   get '/signout' => 'sessions#destroy', as: :signout
   get '/auth/failure' => 'sessions#failure'
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
 end

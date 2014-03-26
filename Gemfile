@@ -17,6 +17,7 @@ gem 'simple_form'
 gem 'thin'
 gem 'koala'
 gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', require: nil
 
 group :development do
   gem 'better_errors'
