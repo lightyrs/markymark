@@ -1,5 +1,7 @@
 Markymark::Application.routes.draw do
 
+  resources :links
+
   root to: 'home#index'
 
   resources :users, only: [ :index, :show, :edit, :update ]

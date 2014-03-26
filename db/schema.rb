@@ -11,7 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326032212) do
+ActiveRecord::Schema.define(version: 20140326042751) do
+
+  create_table "links", force: true do |t|
+    t.text     "title"
+    t.text     "description"
+    t.text     "url"
+    t.text     "image_url"
+    t.text     "content"
+    t.string   "domain"
+    t.datetime "posted_at"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "links", ["user_id", "url"], name: "index_links_on_user_id_and_url", unique: true, length: {"user_id"=>nil, "url"=>100}, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"

@@ -13,4 +13,8 @@ class GraphClient
   def feed
     @client.get_connections('me', 'feed')
   end
+
+  def links
+    @client.get_connections('me', 'links')
+  end
 end

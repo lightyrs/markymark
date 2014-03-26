@@ -1,0 +1,14 @@
+= simple_form_for(@link) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :description
+    = f.input :url
+    = f.input :image_url
+    = f.input :content
+    = f.input :domain
+    = f.input :posted_at
+
+  .form-actions
+    = f.button :submit

@@ -16,6 +16,7 @@ gem 'omniauth-facebook'
 gem 'simple_form'
 gem 'thin'
 gem 'koala'
+gem 'sidekiq'
 
 group :development do
   gem 'better_errors'

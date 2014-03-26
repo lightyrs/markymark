@@ -1,0 +1,31 @@
+%h1 Listing links
+
+%table
+  %tr
+    %th Title
+    %th Description
+    %th Url
+    %th Image url
+    %th Content
+    %th Domain
+    %th Posted at
+    %th
+    %th
+    %th
+
+  - @links.each do |link|
+    %tr
+      %td= link.title
+      %td= link.description
+      %td= link.url
+      %td= link.image_url
+      %td= link.content
+      %td= link.domain
+      %td= link.posted_at
+      %td= link_to 'Show', link
+      %td= link_to 'Edit', edit_link_path(link)
+      %td= link_to 'Destroy', link, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Link', new_link_path
