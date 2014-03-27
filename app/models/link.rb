@@ -48,7 +48,7 @@ class Link < ActiveRecord::Base
 
   def assign_embedly_json(url)
     @embedly_client ||= EmbedlyClient.new
-    @embedly_client.embed(url)
+    self.embedly_json = @embedly_client.embed(url)
   end
 
   def worthy
