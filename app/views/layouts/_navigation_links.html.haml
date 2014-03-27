@@ -1,10 +1,18 @@
 %li= link_to 'Home', root_path
 
-- if user_signed_in?
+- if signed_in?
 
   %li= link_to 'Links', links_path
-  %li= link_to 'Logout', signout_path
+  %li= link_to 'Logout', logout_path
 
 - else
 
-  %li= link_to 'Login', signin_path
+  %ul.nav.navbar-nav.navbar-right
+    %li.dropdown
+      %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+        Login
+        %b.caret
+      %span.dropdown-arrow
+      %ul.dropdown-menu
+        %li= link_to 'Facebook', login_path(provider: 'facebook')
+        %li= link_to 'Twitter', login_path(provider: 'twitter')

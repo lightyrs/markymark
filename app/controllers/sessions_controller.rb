@@ -1,29 +1,54 @@
 class SessionsController < ApplicationController
 
   def new
-    redirect_to '/auth/facebook'
+    redirect_to "/auth/#{params[:provider]}"
   end
 
   def create
-    auth = request.env["omniauth.auth"]
-    user = User.where(:provider => auth['provider'],
-                      :uid => auth['uid'].to_s).first || User.create_with_omniauth(auth)
-    reset_session
-    session[:user_id] = user.id
-    if user.email.blank?
-      redirect_to edit_user_path(user), alert:  "Please enter your email address."
+    auth = request.env['omniauth.auth']
+    # Find an identity here
+    @identity = Identity.find_with_omniauth(auth)
+
+    if @identity.nil?
+      # If no identity was found, create a brand new one here
+      @identity = Identity.create_with_omniauth(auth)
+    end
+
+    if signed_in?
+      if @identity.user == current_user
+        # User is signed in so they are trying to link an identity with their
+        # account. But we found the identity and the user associated with it
+        # is the current user. So the identity is already associated with
+        # this user. So let's display an error message.
+        redirect_to root_url, notice: "Already linked that account!"
+      else
+        # The identity is not associated with the current_user so lets
+        # associate the identity
+        @identity.user = current_user
+        @identity.save()
+        HarvestLinksWorker.perform_async(user.id) if @identity.provider == 'facebook'
+        redirect_to root_url, notice: "Successfully linked that account!"
+      end
     else
-      redirect_to root_url, notice: 'Logged in!', anchor: 'logged_in'
+      if @identity.user.present?
+        # The identity we found had a user associated with it so let's
+        # just log them in here
+        self.current_user = @identity.user
+        redirect_to root_url, notice: "Logged in!"
+      else
+        # No user associated with the identity so we need to create a new one
+        self.current_user = User.find_or_create_with_omniauth(@identity, auth)
+        redirect_to root_url, notice: "Logged in!"
+      end
     end
   end
 
   def destroy
-    reset_session
-    redirect_to root_url, notice:  'Logged out!', anchor: 'logged_out'
+    self.current_user = nil
+    redirect_to root_url, notice: 'Logged out!', anchor: 'logged_out'
   end
 
   def failure
-    redirect_to root_url, alert:  "Authentication error: #{params[:message].humanize}"
+    redirect_to root_url, alert: "Authentication error: #{params[:message].humanize}"
   end
-
 end

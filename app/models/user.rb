@@ -1,17 +1,19 @@
 class User < ActiveRecord::Base
 
   has_many :links
+  has_many :identities
 
-  validates_presence_of :uid
   validates_presence_of :name
-  validates_presence_of :email
 
   class << self
 
-    def create_with_omniauth(auth)
+    def find_or_create_with_omniauth(identity, auth)
+      user = User.find_by_email(auth['info']['email'])
+      user.nil? ? create_with_omniauth(identity, auth) : user
+    end
+
+    def create_with_omniauth(identity, auth)
       u = create! do |user|
-        user.provider = auth['provider']
-        user.uid = auth['uid']
         if auth['info']
            user.name = auth['info']['name'] || ""
            user.email = auth['info']['email'] || ""
@@ -21,7 +23,10 @@ class User < ActiveRecord::Base
         end
       end
       u.tap do |user|
-        HarvestLinksWorker.perform_async(user.id) if user.persisted?
+        if user.persisted?
+          identity.update_attributes(user_id: user.id)
+          HarvestLinksWorker.perform_async(user.id) if identity.provider == 'facebook'
+        end
       end
     end
   end

@@ -1,6 +1,5 @@
 Markymark::Application.routes.draw do
 
-  get "flatuipro_demo/index"
   root to: 'home#index'
 
   resources :users, only: [ :index, :show ]
@@ -8,8 +7,8 @@ Markymark::Application.routes.draw do
   resources :links
 
   get '/auth/:provider/callback' => 'sessions#create'
-  get '/signin' => 'sessions#new', as: :signin
-  get '/signout' => 'sessions#destroy', as: :signout
+  get '/login/:provider' => 'sessions#new', as: :login
+  get '/logout' => 'sessions#destroy', as: :logout
   get '/auth/failure' => 'sessions#failure'
 
   require 'sidekiq/web'
