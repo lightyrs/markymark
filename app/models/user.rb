@@ -25,38 +25,25 @@ class User < ActiveRecord::Base
       u.tap do |user|
         if user.persisted?
           identity.update_attributes(user_id: user.id)
-          HarvestLinksWorker.perform_async(user.id) if identity.provider == 'facebook'
+          HarvestLinksWorker.perform_async(user.id, identity.provider)
         end
       end
     end
   end
 
-  def harvest_links(links = nil)
-    graph = GraphClient.new(facebook_token)
-    links ||= graph.links
-    links.each_with_index do |link, index|
-      if index == (links.count - 1)
-        next_links = links.next_page
-        harvest_links(next_links) if next_links.present?
-      else
-        create_links(links)
-      end
-    end
+  def disconnected_providers
+    Identity.all_providers - connected_providers
   end
 
-  def create_links(links)
-    links.each do |link|
-      begin
-        self.links.create(
-          title: link['name'],
-          description: link['description'],
-          url: link['link'],
-          image_url: link['picture'],
-          posted_at: DateTime.parse(link['created_time'])
-        )
-      rescue StandardError => e
-        puts "#{e.class}: #{e.message}"
-      end
-    end
+  def connected_providers
+    identities.pluck(:provider)
+  end
+
+  def connected_facebook?
+    identities.where(provider: 'facebook').any?
+  end
+
+  def connected_twitter?
+    identities.where(provider: 'twitter').any?
   end
 end

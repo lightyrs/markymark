@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
         # associate the identity
         @identity.user = current_user
         @identity.save()
-        HarvestLinksWorker.perform_async(user.id) if @identity.provider == 'facebook'
+        HarvestLinksWorker.perform_async(user.id, @identity.provider)
         redirect_to root_url, notice: "Successfully linked that account!"
       end
     else

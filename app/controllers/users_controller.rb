@@ -1,17 +1,15 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :correct_user?, :except => [:index]
-
-  def index
-    @users = User.all
-  end
 
   def edit
     @user = User.find(params[:id])
+    redirect_to root_path unless @user == current_user
   end
 
   def update
     @user = User.find(params[:id])
+
+    redirect_to root_path unless @user == current_user
+
     if @user.update_attributes(secure_params)
       redirect_to @user
     else
@@ -21,6 +19,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    redirect_to root_path unless @user == current_user
   end
 
   private
@@ -28,5 +27,4 @@ class UsersController < ApplicationController
   def secure_params
     params.require(:user).permit(:email)
   end
-
 end

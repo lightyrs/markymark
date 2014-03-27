@@ -1,6 +1,25 @@
-%h3 User
-%p
-  User: #{@user.name}
-%p
-  Email: #{@user.email if @user.email}
-= link_to 'Edit account', edit_user_path
+.user
+
+  %h3= @user.name
+
+  - if @user.connected_providers.any?
+
+    %h6 Connected
+    %ul.connected-providers.list-group
+      - @user.connected_providers.each do |network|
+        %li.connected-network.list-group-item
+          %span.network-icon{class: "fui-#{network}"}
+          = network
+          %span.fui-check.pull-right
+
+  - if @user.disconnected_providers.any?
+
+    %h6 Disconnected
+    %ul.disconnected-providers.list-group
+      - @user.disconnected_providers.each do |network|
+        %li.disconnected-network.list-group-item
+          %span.network-icon{class: "fui-#{network}"}
+          = network
+          %span.fui-cross.pull-right
+
+  = link_to 'Edit account', edit_user_path(@user)

@@ -1,0 +1,15 @@
+.user {
+
+  .list-group {
+
+    .list-group-item {
+
+      &.connected-network {
+
+        .network-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}

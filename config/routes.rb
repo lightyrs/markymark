@@ -2,9 +2,9 @@ Markymark::Application.routes.draw do
 
   root to: 'home#index'
 
-  resources :users, only: [ :index, :show ]
+  resources :users, only: [ :show, :edit, :update ]
 
-  resources :links
+  resources :links, only: [ :index, :show ]
 
   get '/auth/:provider/callback' => 'sessions#create'
   get '/login/:provider' => 'sessions#new', as: :login

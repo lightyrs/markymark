@@ -13,5 +13,9 @@ class Identity < ActiveRecord::Base
     def create_with_omniauth(auth)
       create(uid: auth['uid'], provider: auth['provider'])
     end
+
+    def all_providers
+      %w(facebook twitter)
+    end
   end
 end
