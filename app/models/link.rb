@@ -4,6 +4,7 @@ class Link < ActiveRecord::Base
 
   validates :title, presence: true
   validates :url, presence: true, uniqueness: { scope: :user_id }
+  validate :worthy
 
   before_create :fetch_metadata
 
@@ -26,11 +27,18 @@ class Link < ActiveRecord::Base
   end
 
   def assign_keywords(page)
+    puts page.meta_tags.inspect
     keywords = if page.meta['keywords'].present?
       page.meta['keywords']
     elsif page.meta_tags['name'].present?
       page.meta['news_keywords']
     end
     self.keyword_list.add(keywords, parse: true) if keywords.present?
+  end
+
+  def worthy
+    unless description.present? || domain.present? || image_url.present?
+      errors.add(:base, 'Link is not worthy.')
+    end
   end
 end

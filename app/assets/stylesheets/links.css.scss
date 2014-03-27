@@ -10,6 +10,7 @@
 .link {
 
   &.media {
+    padding: 0 0 10px;
 
     > .pull-left {
         margin-right: 20px;
@@ -19,7 +20,23 @@
   p {
     @include wrap-text;
 
-    &.lead {
+    &.domain {
+      font-size: 13px;
+      line-height: 13px;
+      color: #C0C1C2;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+
+    &.description {
+      margin-bottom: 5px;
+    }
+
+    &.posted-at {
+      font-size: 13px;
+      line-height: 13px;
+      color: #C0C1C2;
+      font-weight: 400;
       margin-bottom: 0;
     }
   }
