@@ -27,7 +27,6 @@ class Link < ActiveRecord::Base
   end
 
   def assign_keywords(page)
-    puts page.meta_tags.inspect
     keywords = if page.meta['keywords'].present?
       page.meta['keywords']
     elsif page.meta_tags['name'].present?

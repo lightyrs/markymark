@@ -20,6 +20,7 @@ gem 'koala'
 gem 'twitter'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
+gem 'embedly'
 gem 'metainspector'
 gem 'acts-as-taggable-on'
 

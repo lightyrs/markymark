@@ -70,6 +70,10 @@ GEM
     email_spec (1.5.0)
       launchy (~> 2.1)
       mail (~> 2.2)
+    embedly (1.9.1)
+      json
+      oauth
+      querystring
     equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
@@ -173,6 +177,7 @@ GEM
       omniauth-oauth (~> 1.0)
     open_uri_redirections (0.1.4)
     polyglot (0.3.4)
+    querystring (0.1.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -292,6 +297,7 @@ DEPENDENCIES
   database_cleaner (= 1.0.1)
   designmodo-flatuipro-rails (~> 1.2.5.0.branch)
   email_spec
+  embedly
   factory_girl_rails
   foreman
   haml-rails
