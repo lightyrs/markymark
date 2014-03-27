@@ -8,6 +8,8 @@
     %p.domain= link.domain
     %h6.media-heading= link_to link.title, link.url, target: '_blank'
     %p.description= link.description
+    - if link.embedly_json.present?
+      .embed= embed(link)
     - if link.keywords.any?
       .tags
         - link.keywords.each do |keyword|
