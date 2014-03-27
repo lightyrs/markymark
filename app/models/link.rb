@@ -30,7 +30,7 @@ class Link < ActiveRecord::Base
       self.description = page.meta['description'] if page.meta['description'].present?
       self.image_url = page.image if page.image.present?
       assign_keywords(page)
-      assign_embedly_json(self.url) if self.url && self.url.embeddable?
+      assign_embedly_json(self.url) if self.url && self.embeddable?
       sleep 0.05
     rescue StandardError
       self
