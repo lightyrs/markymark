@@ -8,7 +8,17 @@ class Link < ActiveRecord::Base
 
   before_create :fetch_metadata
 
+  serialize :embedly_json, JSON
+
   acts_as_taggable_on :keywords
+
+  def embeddable?
+    embeddable_url.present?
+  end
+
+  def embeddable_url
+    url.scan(EmbedlyClient.regexp).flatten.first
+  end
 
   private
 
@@ -20,6 +30,7 @@ class Link < ActiveRecord::Base
       self.description = page.meta['description'] if page.meta['description'].present?
       self.image_url = page.image if page.image.present?
       assign_keywords(page)
+      assign_embedly_json(self.url) if self.url && self.url.embeddable?
       sleep 0.05
     rescue StandardError
       self
@@ -33,6 +44,11 @@ class Link < ActiveRecord::Base
       page.meta['news_keywords']
     end
     self.keyword_list.add(keywords, parse: true) if keywords.present?
+  end
+
+  def assign_embedly_json(url)
+    @embedly_client ||= EmbedlyClient.new
+    @embedly_client.embed(url)
   end
 
   def worthy

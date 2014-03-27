@@ -67,6 +67,8 @@ GEM
       less-rails-bootstrap
     diff-lcs (1.2.5)
     dotenv (0.10.0)
+    dotenv-rails (0.10.0)
+      dotenv (= 0.10.0)
     email_spec (1.5.0)
       launchy (~> 2.1)
       mail (~> 2.2)
@@ -296,6 +298,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner (= 1.0.1)
   designmodo-flatuipro-rails (~> 1.2.5.0.branch)
+  dotenv-rails
   email_spec
   embedly
   factory_girl_rails
