@@ -6,9 +6,7 @@
       .img-placeholder.img-64x64
   .media-body
     %h6.media-heading= link_to link.title, link.url, target: '_blank'
-    %p= link.description
-
--# = link.posted_at
--# = link.content
--# = link.domain
--# = link_to 'Show', link
+    %p.description= link.description
+    .metadata.clearfix
+      %p.domain.pull-left= link.domain
+      %p.posted-at.pull-right= link.posted_at.to_formatted_s

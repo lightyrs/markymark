@@ -1,12 +1,17 @@
 .user {
 
+  .providers {
+    padding-top: 5px;
+  }
+
   .list-group {
 
     .list-group-item {
 
-      &.connected-network {
+      &.connected-provider,
+      &.disconnected-provider {
 
-        .network-icon {
+        .provider-icon {
           margin-right: 8px;
         }
       }

@@ -17,9 +17,11 @@ gem 'omniauth-twitter'
 gem 'simple_form'
 gem 'thin'
 gem 'koala'
+gem 'twitter'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'metainspector'
+gem 'acts-as-taggable-on'
 
 gem 'therubyracer', platforms: :ruby
 gem 'less-rails-bootstrap'

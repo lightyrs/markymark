@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
   has_many :links
-  has_many :identities
+  has_many :identities, dependent: :destroy
 
   validates_presence_of :name
 
