@@ -18,9 +18,6 @@ class User < ActiveRecord::Base
            user.name = auth['info']['name'] || ""
            user.email = auth['info']['email'] || ""
         end
-        if auth['credentials'] && auth['credentials']['token']
-          user.facebook_token = auth['credentials']['token']
-        end
       end
       u.tap do |user|
         if user.persisted?
@@ -29,6 +26,16 @@ class User < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def token(provider)
+    raise ArgumentError unless identity = identities.where(provider: provider).first
+    identity.token
+  end
+
+  def username(provider)
+    raise ArgumentError unless identity = identities.where(provider: provider).first
+    identity.username
   end
 
   def disconnected_providers

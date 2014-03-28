@@ -20,7 +20,7 @@ class Reaper
   private
 
   def harvest_links_from_facebook(links = nil)
-    graph = GraphClient.new(@user.facebook_token)
+    graph = GraphClient.new(@user.token('facebook'))
     links ||= graph.links
     links.each_with_index do |link, index|
       if index == (links.count - 1)
@@ -42,6 +42,28 @@ class Reaper
           image_url: link['picture'],
           posted_at: DateTime.parse(link['created_time'])
         )
+      rescue StandardError => e
+        puts "#{e.class}: #{e.message}"
+      end
+    end
+  end
+
+  def harvest_links_from_twitter
+    client = TwitterClient.new
+    tweets = client.all_tweets(@user.username('twitter'))
+    urls = []
+    tweets.each do |tweet|
+      urls.push(tweet.urls.map(&:expanded_url).flatten.compact) if tweet.urls?
+    end
+    create_links_from_twitter(urls.flatten.compact)
+  end
+
+  def create_links_from_twitter(links)
+    links.each do |link|
+      begin
+        puts "#{link}".inspect.green
+        link = @user.links.create(url: "#{link}")
+        puts link.errors.inspect.red
       rescue StandardError => e
         puts "#{e.class}: #{e.message}"
       end

@@ -38,6 +38,7 @@ group :development do
   gem 'quiet_assets'
   gem 'rails_layout'
   gem 'awesome_print'
+  gem 'colored'
 end
 
 group :development, :test do

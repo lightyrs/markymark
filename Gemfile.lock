@@ -56,6 +56,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    colored (1.2)
     commonjs (0.2.7)
     connection_pool (2.0.0)
     daemons (1.1.9)
@@ -296,6 +297,7 @@ DEPENDENCIES
   bootstrap-sass
   capybara
   coffee-rails (~> 4.0.0)
+  colored
   database_cleaner (= 1.0.1)
   designmodo-flatuipro-rails (~> 1.2.5.0.branch)
   dotenv-rails

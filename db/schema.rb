@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327063724) do
+ActiveRecord::Schema.define(version: 20140328044545) do
 
   create_table "identities", force: true do |t|
     t.string   "provider"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140327063724) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "token"
   end
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
@@ -63,7 +64,6 @@ ActiveRecord::Schema.define(version: 20140327063724) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "facebook_token"
   end
 
 end

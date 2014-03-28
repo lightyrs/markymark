@@ -3,7 +3,7 @@ class GraphClient
   include ActiveModel::Model
 
   def initialize(oauth_access_token)
-    @client = Koala::Facebook::API.new(oauth_access_token)
+    @client = init_client(oauth_access_token)
   end
 
   def me
@@ -16,5 +16,11 @@ class GraphClient
 
   def links
     @client.get_connections('me', 'links')
+  end
+
+  private
+
+  def init_client(oauth_access_token)
+    Koala::Facebook::API.new(oauth_access_token)
   end
 end

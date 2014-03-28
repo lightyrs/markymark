@@ -6,7 +6,7 @@ class Link < ActiveRecord::Base
   validates :url, presence: true, uniqueness: { scope: :user_id }
   validate :worthy
 
-  before_create :fetch_metadata
+  before_validation :fetch_metadata, on: :create
 
   serialize :embedly_json, JSON
 
@@ -24,13 +24,18 @@ class Link < ActiveRecord::Base
 
   def fetch_metadata
     begin
-      page = MetaInspector.new(self.url)
+      page = MetaInspector.new(self.url, timeout: 10, allow_redirections: :all)
       self.domain = page.host.gsub('www.', '')
-      self.title = page.meta['og:title'] if page.meta['og:title'].present?
+      if page.meta['og:title'].present?
+        self.title = page.meta['og:title']
+      else
+        self.title = page.title unless self.title.present?
+      end
       self.description = page.meta['description'] if page.meta['description'].present?
       self.image_url = page.image if page.image.present?
       assign_keywords(page)
-      assign_embedly_json(self.url) if self.url && self.embeddable?
+      self.url = page.url if page.url.present?
+      # assign_embedly_json(self.url) if self.url && self.embeddable?
       sleep 0.05
     rescue StandardError
       self
