@@ -20,13 +20,14 @@ class SessionsController < ApplicationController
         # account. But we found the identity and the user associated with it
         # is the current user. So the identity is already associated with
         # this user. So let's display an error message.
+        @identity.update_token(auth)
         redirect_to root_url, notice: "Already linked that account!"
       else
         # The identity is not associated with the current_user so lets
         # associate the identity
         @identity.user = current_user
         @identity.save()
-        HarvestLinksWorker.perform_async(@identity.user.id, @identity.provider)
+        HarvestLinksWorker.perform_async(@identity.user.id, @identity.provider.id)
         redirect_to root_url, notice: "Successfully linked that account!"
       end
     else
@@ -34,6 +35,7 @@ class SessionsController < ApplicationController
         # The identity we found had a user associated with it so let's
         # just log them in here
         self.current_user = @identity.user
+        @identity.update_token(auth)
         redirect_to root_url, notice: "Logged in!"
       else
         # No user associated with the identity so we need to create a new one

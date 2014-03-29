@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328044545) do
+ActiveRecord::Schema.define(version: 20140329220551) do
 
   create_table "identities", force: true do |t|
     t.string   "provider"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140328044545) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "token"
+    t.integer  "provider_id"
   end
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
@@ -37,9 +38,18 @@ ActiveRecord::Schema.define(version: 20140328044545) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "embedly_json"
+    t.integer  "provider_id"
   end
 
   add_index "links", ["user_id", "url"], name: "index_links_on_user_id_and_url", unique: true, length: {"user_id"=>nil, "url"=>100}, using: :btree
+
+  create_table "providers", force: true do |t|
+    t.string   "name"
+    t.string   "domain"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

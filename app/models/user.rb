@@ -22,24 +22,24 @@ class User < ActiveRecord::Base
       u.tap do |user|
         if user.persisted?
           identity.update_attributes(user_id: user.id)
-          HarvestLinksWorker.perform_async(user.id, identity.provider)
+          HarvestLinksWorker.perform_async(user.id, identity.provider_id)
         end
       end
     end
   end
 
-  def token(provider)
-    raise ArgumentError unless identity = identities.where(provider: provider).first
+  def token(options = {})
+    raise ArgumentError unless identity = identities.where(provider_id: options[:provider_id]).first
     identity.token
   end
 
-  def username(provider)
-    raise ArgumentError unless identity = identities.where(provider: provider).first
+  def username(options = {})
+    raise ArgumentError unless identity = identities.where(provider_id: options[:provider_id]).first
     identity.username
   end
 
   def disconnected_providers
-    Identity.all_providers - connected_providers
+    Provider.all - connected_providers
   end
 
   def connected_providers
@@ -47,10 +47,10 @@ class User < ActiveRecord::Base
   end
 
   def connected_facebook?
-    identities.where(provider: 'facebook').any?
+    identities.where(provider_id: Provider.find_by_name('facebook')).any?
   end
 
   def connected_twitter?
-    identities.where(provider: 'twitter').any?
+    identities.where(provider_id: Provider.find_by_name('twitter')).any?
   end
 end

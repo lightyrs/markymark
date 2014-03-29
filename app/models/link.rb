@@ -1,6 +1,7 @@
 class Link < ActiveRecord::Base
 
   belongs_to :user
+  belongs_to :provider
 
   validates :title, presence: true
   validates :url, presence: true, uniqueness: { scope: :user_id }
@@ -37,6 +38,7 @@ class Link < ActiveRecord::Base
       self.url = page.url if page.url.present?
       # assign_embedly_json(self.url) if self.url && self.embeddable?
       sleep 0.05
+      self
     rescue StandardError
       self
     end
