@@ -24,7 +24,7 @@ class Link < ActiveRecord::Base
 
   def fetch_metadata
     begin
-      page = MetaInspector.new(self.url, timeout: 10, allow_redirections: :all)
+      page = MetaInspector.new(self.url, timeout: 6, allow_redirections: :all)
       self.domain = page.host.gsub('www.', '')
       if page.meta['og:title'].present?
         self.title = page.meta['og:title']

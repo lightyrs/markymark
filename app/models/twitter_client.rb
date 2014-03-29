@@ -27,7 +27,7 @@ class TwitterClient
       if response.empty?
         collection.flatten
       else
-        sleep 3
+        sleep 1
         collect_with_max_id(collection, response.last.id - 1, &block)
       end
     rescue Twitter::Error::TooManyRequests => error
