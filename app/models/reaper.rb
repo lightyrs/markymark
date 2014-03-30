@@ -18,16 +18,20 @@ class Reaper
 
   private
 
-  def harvest_links_from_facebook(links = nil)
-    @graph ||= GraphClient.new(@user.token(provider_id: @provider.id))
-    links ||= @graph.links
-    links.each_with_index do |link, index|
-      if index == (links.count - 1)
-        next_links = links.next_page
-        harvest_links_from_facebook(next_links) if next_links.present?
-      else
-        create_link_from_facebook(link)
+  def harvest_links_from_facebook(links = nil, options = {})
+    begin
+      @graph ||= GraphClient.new(@user.token(provider_id: @provider.id))
+      links ||= @graph.links
+      links.each_with_index do |link, index|
+        if index == (links.count - 1)
+          next_links = links.next_page
+          harvest_links_from_facebook(next_links) if next_links.present?
+        else
+          create_link_from_facebook(link)
+        end
       end
+    rescue StandardError => e
+      puts "#{e.class}: #{e.message}".red
     end
   end
 
@@ -42,7 +46,7 @@ class Reaper
         provider_id: @provider.id
       )
     rescue StandardError => e
-      puts "#{e.class}: #{e.message}"
+      puts "#{e.class}: #{e.message}".red
     end
   end
 
@@ -64,11 +68,11 @@ class Reaper
               provider_id: @provider.id
             )
           rescue StandardError => e
-            puts "#{e.class}: #{e.message}"
+            puts "#{e.class}: #{e.message}".red
           end
         end
       rescue StandardError => e
-        puts "#{e.class}: #{e.message}"
+        puts "#{e.class}: #{e.message}".red
       end
     end
   end

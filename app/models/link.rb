@@ -41,7 +41,8 @@ class Link < ActiveRecord::Base
       # assign_embedly_json(self.url) if self.url && self.embeddable?
       sleep 0.05
       self
-    rescue StandardError
+    rescue StandardError => e
+      puts "#{e.class}: #{e.message}".red
       self
     end
   end

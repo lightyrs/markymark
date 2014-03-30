@@ -7,15 +7,15 @@ class GraphClient
   end
 
   def me
-    @client.get_object('me')
+    @client.get_object('me') rescue nil
   end
 
   def feed
-    @client.get_connections('me', 'feed')
+    @client.get_connections('me', 'feed') rescue nil
   end
 
   def links
-    @client.get_connections('me', 'links')
+    @client.get_connections('me', 'links') rescue nil
   end
 
   private

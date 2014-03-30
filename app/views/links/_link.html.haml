@@ -7,7 +7,7 @@
   .media-body
     %p.domain= link.domain
     %h6.media-heading= link_to link.title.try(:html_safe), link.url, target: '_blank'
-    %p.description= link.description
+    %p.description= link.description.try(:html_safe)
     - if link.embedly_json.present?
       .embed= embed(link)
     - if link.keywords.any?

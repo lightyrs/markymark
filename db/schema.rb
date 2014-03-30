@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329234651) do
+ActiveRecord::Schema.define(version: 20140330012157) do
 
   create_table "identities", force: true do |t|
     t.string   "provider"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20140329234651) do
     t.datetime "updated_at"
     t.text     "embedly_json"
     t.integer  "provider_id"
+    t.text     "lede"
   end
 
   add_index "links", ["description", "domain", "title"], name: "index_links_on_description_and_domain_and_title", unique: true, length: {"description"=>100, "domain"=>nil, "title"=>100}, using: :btree
