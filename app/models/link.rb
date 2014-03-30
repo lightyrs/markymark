@@ -33,6 +33,7 @@ class Link < ActiveRecord::Base
       self.url = meta_inspector_page.url
       self.domain = meta_inspector_page.host.gsub('www.', '')
       self.title = pismo_page.title
+      self.lede = pismo_page.lede
       self.description = meta_inspector_page.meta['description']
       self.image_url = meta_inspector_page.image
       self.content = pismo_page.body
@@ -50,7 +51,7 @@ class Link < ActiveRecord::Base
   end
 
   def pismo_page
-    @pismo_page ||= Pismo::Document.new(self.url)
+    @pismo_page ||= Pismo::Document.new("#{meta_inspector_page}")
   end
 
   def assign_keywords
