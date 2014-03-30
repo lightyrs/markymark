@@ -5,6 +5,9 @@ class Identity < ActiveRecord::Base
 
   validates :uid, presence: true, uniqueness: true
 
+  scope :facebook, -> { where(provider_id: Provider.facebook.id) }
+  scope :twitter, -> { where(provider_id: Provider.twitter.id) }
+
   class << self
 
     def find_with_omniauth(auth)

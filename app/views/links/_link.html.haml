@@ -6,7 +6,7 @@
       .img-placeholder.img-64x64
   .media-body
     %p.domain= link.domain
-    %h6.media-heading= link_to link.title, link.url, target: '_blank'
+    %h6.media-heading= link_to link.title.try(:html_safe), link.url, target: '_blank'
     %p.description= link.description
     - if link.embedly_json.present?
       .embed= embed(link)

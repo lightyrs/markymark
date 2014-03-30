@@ -49,18 +49,24 @@ class Reaper
   def harvest_links_from_twitter
     client = TwitterClient.new
     tweets = client.all_tweets(@user.username(provider_id: @provider.id))
-    urls = []
-    tweets.each do |tweet|
-      urls.push(tweet.urls.map(&:expanded_url).flatten.compact) if tweet.urls?
-    end
-    create_links_from_twitter(urls.flatten.compact)
+    create_links_from_twitter(tweets.select(&:urls?))
   end
 
-  def create_links_from_twitter(links)
-    links.each do |link|
-      puts link.inspect.green
+  def create_links_from_twitter(tweets)
+    tweets.each do |tweet|
       begin
-        @user.links.create(url: "#{link}", provider_id: @provider.id)
+        links = tweet.urls.map(&:expanded_url).flatten.compact
+        links.each do |link|
+          begin
+            @user.links.create(
+              url: "#{link}",
+              posted_at: tweet.created_at,
+              provider_id: @provider.id
+            )
+          rescue StandardError => e
+            puts "#{e.class}: #{e.message}"
+          end
+        end
       rescue StandardError => e
         puts "#{e.class}: #{e.message}"
       end

@@ -3,7 +3,7 @@ class Link < ActiveRecord::Base
   belongs_to :user
   belongs_to :provider
 
-  validates :title, presence: true
+  validates :title, presence: true, uniqueness: { scope: [:description, :domain] }
   validates :url, presence: true, uniqueness: { scope: :user_id }
   validate :worthy
 
@@ -11,7 +11,12 @@ class Link < ActiveRecord::Base
 
   serialize :embedly_json, JSON
 
+  scope :facebook, -> { where(provider_id: Provider.facebook.id) }
+  scope :twitter, -> { where(provider_id: Provider.twitter.id) }
+
   acts_as_taggable_on :keywords
+
+  self.per_page = 50
 
   def embeddable?
     embeddable_url.present?

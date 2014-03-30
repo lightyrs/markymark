@@ -23,6 +23,9 @@ gem 'sinatra', '>= 1.3.0', require: nil
 gem 'embedly'
 gem 'metainspector'
 gem 'acts-as-taggable-on'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
+gem 'immigrant'
 
 gem 'therubyracer', platforms: :ruby
 gem 'less-rails-bootstrap'

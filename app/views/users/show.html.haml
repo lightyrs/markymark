@@ -11,7 +11,7 @@
         - @user.connected_providers.each do |provider|
           %li.connected-provider.list-group-item
             %span.provider-icon{class: "fui-#{provider}"}
-            = provider
+            = provider.name
             %span.fui-check.pull-right
 
     - if @user.disconnected_providers.any?
@@ -21,7 +21,7 @@
         - @user.disconnected_providers.each do |provider|
           %li.disconnected-provider.list-group-item
             %span.provider-icon{class: "fui-#{provider}"}
-            = link_to provider, login_path(provider: provider)
+            = link_to provider.name, login_path(provider: provider)
             %span.fui-cross.pull-right
 
   = link_to 'Edit account', edit_user_path(@user)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329220551) do
+ActiveRecord::Schema.define(version: 20140329234651) do
 
   create_table "identities", force: true do |t|
     t.string   "provider"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140329220551) do
     t.integer  "provider_id"
   end
 
+  add_index "identities", ["provider_id"], name: "identities_provider_id_fk", using: :btree
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "links", force: true do |t|
@@ -41,6 +42,8 @@ ActiveRecord::Schema.define(version: 20140329220551) do
     t.integer  "provider_id"
   end
 
+  add_index "links", ["description", "domain", "title"], name: "index_links_on_description_and_domain_and_title", unique: true, length: {"description"=>100, "domain"=>nil, "title"=>100}, using: :btree
+  add_index "links", ["provider_id"], name: "links_provider_id_fk", using: :btree
   add_index "links", ["user_id", "url"], name: "index_links_on_user_id_and_url", unique: true, length: {"user_id"=>nil, "url"=>100}, using: :btree
 
   create_table "providers", force: true do |t|
@@ -75,5 +78,13 @@ ActiveRecord::Schema.define(version: 20140329220551) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_foreign_key "identities", "providers", name: "identities_provider_id_fk"
+  add_foreign_key "identities", "users", name: "identities_user_id_fk"
+
+  add_foreign_key "links", "providers", name: "links_provider_id_fk"
+  add_foreign_key "links", "users", name: "links_user_id_fk"
+
+  add_foreign_key "taggings", "tags", name: "taggings_tag_id_fk"
 
 end

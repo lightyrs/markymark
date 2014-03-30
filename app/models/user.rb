@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   end
 
   def connected_providers
-    identities.pluck(:provider)
+    identities.map(&:provider)
   end
 
   def connected_facebook?

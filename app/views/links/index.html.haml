@@ -5,6 +5,8 @@
   %ul.links.media-list
     = render @links
 
+  = will_paginate @links
+
 - else
 
   %h6 There are no links yet.
