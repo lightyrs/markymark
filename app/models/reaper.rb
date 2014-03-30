@@ -30,7 +30,7 @@ class Reaper
           create_link_from_facebook(link)
         end
       end
-    rescue StandardError => e
+    rescue => e
       puts "#{e.class}: #{e.message}".red
     end
   end
@@ -45,7 +45,7 @@ class Reaper
         posted_at: DateTime.parse(link['created_time']),
         provider_id: @provider.id
       )
-    rescue StandardError => e
+    rescue => e
       puts "#{e.class}: #{e.message}".red
     end
   end
@@ -67,11 +67,11 @@ class Reaper
               posted_at: tweet.created_at,
               provider_id: @provider.id
             )
-          rescue StandardError => e
+          rescue => e
             puts "#{e.class}: #{e.message}".red
           end
         end
-      rescue StandardError => e
+      rescue => e
         puts "#{e.class}: #{e.message}".red
       end
     end

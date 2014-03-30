@@ -41,7 +41,7 @@ class Link < ActiveRecord::Base
       # assign_embedly_json(self.url) if self.url && self.embeddable?
       sleep 0.05
       self
-    rescue StandardError => e
+    rescue => e
       puts "#{e.class}: #{e.message}".red
       self
     end
@@ -56,14 +56,18 @@ class Link < ActiveRecord::Base
   end
 
   def assign_keywords
-    meta_inspector_keywords = if meta_inspector_page.meta['keywords'].present?
-      meta_inspector_page.meta['keywords']
-    elsif meta_inspector_page.meta_tags['name'].present?
-      meta_inspector_page.meta['news_keywords']
+    begin
+      meta_inspector_keywords = if meta_inspector_page.meta['keywords'].present?
+        meta_inspector_page.meta['keywords']
+      elsif meta_inspector_page.meta_tags['name'].present?
+        meta_inspector_page.meta['news_keywords']
+      end
+      pismo_keywords = pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
+      keywords = "#{meta_inspector_keywords}, #{pismo_keywords}"
+      self.keyword_list.add(keywords, parse: true) if keywords.present?
+    rescue => e
+      puts "#{e.class}: #{e.message}".red
     end
-    pismo_keywords = pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
-    keywords = "#{meta_inspector_keywords}, #{pismo_keywords}"
-    self.keyword_list.add(keywords, parse: true) if keywords.present?
   end
 
   def assign_embedly_json(url)
