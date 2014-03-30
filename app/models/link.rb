@@ -30,17 +30,13 @@ class Link < ActiveRecord::Base
 
   def fetch_metadata
     begin
-      page = MetaInspector.new(self.url, timeout: 6, allow_redirections: :all)
-      self.domain = page.host.gsub('www.', '')
-      if page.meta['og:title'].present?
-        self.title = page.meta['og:title']
-      else
-        self.title = page.title unless self.title.present?
-      end
-      self.description = page.meta['description'] if page.meta['description'].present?
-      self.image_url = page.image if page.image.present?
-      assign_keywords(page)
-      self.url = page.url if page.url.present?
+      self.url = meta_inspector_page.url
+      self.domain = meta_inspector_page.host.gsub('www.', '')
+      self.title = pismo_page.title
+      self.description = meta_inspector_page.meta['description']
+      self.image_url = meta_inspector_page.image
+      self.content = pismo_page.body
+      assign_keywords
       # assign_embedly_json(self.url) if self.url && self.embeddable?
       sleep 0.05
       self
@@ -49,12 +45,22 @@ class Link < ActiveRecord::Base
     end
   end
 
-  def assign_keywords(page)
-    keywords = if page.meta['keywords'].present?
-      page.meta['keywords']
-    elsif page.meta_tags['name'].present?
-      page.meta['news_keywords']
+  def meta_inspector_page
+    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 6, allow_redirections: :all)
+  end
+
+  def pismo_page
+    @pismo_page ||= Pismo::Document.new(self.url)
+  end
+
+  def assign_keywords
+    meta_inspector_keywords = if meta_inspector_page.meta['keywords'].present?
+      meta_inspector_page.meta['keywords']
+    elsif meta_inspector_page.meta_tags['name'].present?
+      meta_inspector_page.meta['news_keywords']
     end
+    pismo_keywords = pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
+    keywords = "#{meta_inspector_keywords}, #{pismo_keywords}"
     self.keyword_list.add(keywords, parse: true) if keywords.present?
   end
 
