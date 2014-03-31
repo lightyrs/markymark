@@ -4,8 +4,10 @@ Markymark::Application.routes.draw do
 
   resources :users, only: [ :show, :edit, :update ]
 
-  resources :links, only: [ :index, :show ]
-  get '/links/tags/(:tag)' => 'links#index', as: 'tagged_links'
+  resources :links, only: [ :index, :show ] do
+    get 'tags', on: :collection
+  end
+  get '/links/tags/:tag' => 'links#index', as: 'tagged_links'
   get '/links/domains/(:site)' => 'links#index', as: 'domain_links', constraints: { site: /[^\/]+/ }
 
   get '/auth/:provider/callback' => 'sessions#create'

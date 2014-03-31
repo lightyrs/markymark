@@ -14,7 +14,7 @@ class Link < ActiveRecord::Base
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
 
-  acts_as_taggable_on :keywords
+  acts_as_taggable
 
   self.per_page = 50
 
@@ -64,7 +64,7 @@ class Link < ActiveRecord::Base
       end
       pismo_keywords = pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
       keywords = "#{meta_inspector_keywords}, #{pismo_keywords}"
-      self.keyword_list.add(keywords, parse: true) if keywords.present?
+      self.tag_list.add(keywords, parse: true) if keywords.present?
     rescue => e
       puts "#{e.class}: #{e.message}".red
     end

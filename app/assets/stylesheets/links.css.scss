@@ -1,5 +1,21 @@
 @import 'mixins';
 
+.tags {
+
+  .css1 {
+    font-size: 1.0em;
+  }
+  .css2 {
+    font-size: 1.3em;
+  }
+  .css3 {
+    font-size: 1.5em;
+  }
+  .css4 {
+    font-size: 1.75em;
+  }
+}
+
 .links {
 
   &.media-list {

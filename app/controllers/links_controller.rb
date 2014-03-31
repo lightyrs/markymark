@@ -5,7 +5,6 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    puts params.inspect.red
     if params[:tag]
       links = current_user.links.tagged_with(params[:tag])
     elsif params[:site]
@@ -19,6 +18,10 @@ class LinksController < ApplicationController
   # GET /links/1
   # GET /links/1.json
   def show
+  end
+
+  def tags
+    @tags = Link.tag_counts_on(:tags)
   end
 
   private

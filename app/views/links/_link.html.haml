@@ -22,9 +22,9 @@
     - if link.embedly_json.present?
       .embed= embed(link)
 
-    - if link.keywords.any?
+    - if link.tags.any?
       .tags
-        - link.keywords.each do |keyword|
-          = link_to keyword, tagged_links_path("#{keyword}"), class: 'label label-default'
+        - link.tags.each do |tag|
+          = link_to tag, tagged_links_path("#{tag}"), class: 'label label-default'
 
     -# %p.posted-at= link.posted_at.to_formatted_s
