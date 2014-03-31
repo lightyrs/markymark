@@ -48,7 +48,7 @@ class Link < ActiveRecord::Base
   end
 
   def meta_inspector_page
-    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 6, allow_redirections: :all)
+    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
   end
 
   def pismo_page

@@ -10,7 +10,7 @@
       %ul.connected-providers.list-group
         - @user.connected_providers.each do |provider|
           %li.connected-provider.list-group-item
-            %span.provider-icon{class: "fui-#{provider}"}
+            %span.provider-icon{class: "fui-#{provider.name}"}
             = provider.name
             %span.fui-check.pull-right
 
@@ -20,7 +20,7 @@
       %ul.disconnected-providers.list-group
         - @user.disconnected_providers.each do |provider|
           %li.disconnected-provider.list-group-item
-            %span.provider-icon{class: "fui-#{provider}"}
+            %span.provider-icon{class: "fui-#{provider.name}"}
             = link_to provider.name, login_path(provider: provider)
             %span.fui-cross.pull-right
 

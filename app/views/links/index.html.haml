@@ -5,7 +5,9 @@
   %ul.links.media-list
     = render @links
 
-  = will_paginate @links
+  .pagination-wrapper.text-center.clearfix
+    = will_paginate @links, previous_label: '&laquo;', next_label: '&raquo;'
+    .page-entries-info= page_entries_info @links
 
 - else
 

@@ -5,7 +5,14 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    @links = current_user.links.page(params[:page]).order('posted_at DESC')
+    if params[:tag]
+      links = current_user.links.tagged_with(params[:tag])
+    elsif params[:domain]
+      links = current_user.links.where(domain: params[:domain])
+    else
+      links = current_user.links
+    end
+    @links = links.page(params[:page]).order('posted_at DESC')
   end
 
   # GET /links/1
