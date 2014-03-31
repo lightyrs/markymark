@@ -14,13 +14,13 @@ gem 'mysql2'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'omniauth-pocket'
 gem 'simple_form'
 gem 'thin'
-gem 'koala'
 gem 'twitter'
+gem 'koala'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
-gem 'embedly'
 gem 'pismo'
 gem 'metainspector'
 gem 'acts-as-taggable-on'
@@ -32,6 +32,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'less-rails-bootstrap'
 gem 'jquery-ui-rails'
 gem 'designmodo-flatuipro-rails', '~> 1.2.5.0.branch'
+gem 'bourbon'
 
 group :development do
   gem 'better_errors'

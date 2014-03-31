@@ -9,22 +9,12 @@ class Link < ActiveRecord::Base
 
   before_validation :fetch_metadata, on: :create
 
-  serialize :embedly_json, JSON
-
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
 
   acts_as_taggable
 
   self.per_page = 50
-
-  def embeddable?
-    embeddable_url.present?
-  end
-
-  def embeddable_url
-    url.scan(EmbedlyClient.regexp).flatten.first
-  end
 
   private
 
@@ -37,8 +27,7 @@ class Link < ActiveRecord::Base
       self.description = meta_inspector_page.meta['description']
       self.image_url = meta_inspector_page.image
       self.content = pismo_page.body
-      assign_keywords
-      # assign_embedly_json(self.url) if self.url && self.embeddable?
+      assign_tags
       sleep 0.05
       self
     rescue => e
@@ -55,7 +44,7 @@ class Link < ActiveRecord::Base
     @pismo_page ||= Pismo::Document.new("#{meta_inspector_page}")
   end
 
-  def assign_keywords
+  def assign_tags
     begin
       meta_inspector_keywords = if meta_inspector_page.meta['keywords'].present?
         meta_inspector_page.meta['keywords']
@@ -63,16 +52,11 @@ class Link < ActiveRecord::Base
         meta_inspector_page.meta['news_keywords']
       end
       pismo_keywords = pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
-      keywords = "#{meta_inspector_keywords}, #{pismo_keywords}"
-      self.tag_list.add(keywords, parse: true) if keywords.present?
+      tags = "#{meta_inspector_keywords}, #{pismo_keywords}"
+      self.tag_list.add(tags, parse: true) if tags.present?
     rescue => e
       puts "#{e.class}: #{e.message}".red
     end
-  end
-
-  def assign_embedly_json(url)
-    @embedly_client ||= EmbedlyClient.new
-    self.embedly_json = @embedly_client.embed(url)
   end
 
   def worthy

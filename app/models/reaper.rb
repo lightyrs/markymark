@@ -13,6 +13,8 @@ class Reaper
       harvest_links_from_facebook
     when 'twitter'
       harvest_links_from_twitter
+    when 'pocket'
+      harvest_links_from_pocket
     end
   end
 
@@ -75,5 +77,9 @@ class Reaper
         puts "#{e.class}: #{e.message}".red
       end
     end
+  end
+
+  def harvest_links_from_pocket
+
   end
 end

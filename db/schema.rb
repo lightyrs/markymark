@@ -11,10 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140330012157) do
+ActiveRecord::Schema.define(version: 20140331033103) do
 
   create_table "identities", force: true do |t|
-    t.string   "provider"
     t.string   "uid"
     t.string   "username"
     t.integer  "user_id"
@@ -32,13 +31,12 @@ ActiveRecord::Schema.define(version: 20140330012157) do
     t.text     "description"
     t.text     "url"
     t.text     "image_url"
-    t.text     "content"
+    t.text     "content",     limit: 2147483647
     t.string   "domain"
     t.datetime "posted_at"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "embedly_json"
     t.integer  "provider_id"
     t.text     "lede"
   end

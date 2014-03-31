@@ -10,6 +10,7 @@ class Provider < ActiveRecord::Base
     def seed
       Provider.facebook
       Provider.twitter
+      Provider.pocket
     end
 
     def facebook
@@ -23,6 +24,13 @@ class Provider < ActiveRecord::Base
       find_or_create_by!(name: 'twitter') do |provider|
         provider.domain = 'twitter.com'
         provider.description = 'Twitter is an online social networking and microblogging service that enables users to send and read short 140-character text messages, called "tweets".'
+      end
+    end
+
+    def pocket
+      find_or_create_by!(name: 'pocket') do |provider|
+        provider.domain = 'getpocket.com'
+        provider.description = 'Save For Later. Put articles, videos or pretty much anything into Pocket. Save directly from your browser or from apps like Twitter, Flipboard, Pulse and Zite.'
       end
     end
   end

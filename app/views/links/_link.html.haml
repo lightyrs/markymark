@@ -1,4 +1,4 @@
-= content_tag_for :li, link, class: 'media' do
+= content_tag_for :li, link, class: "media #{domain_class_name(link)}" do
 
   - if link.image_url
 
@@ -10,8 +10,11 @@
       .img-placeholder.img-64x64
 
   .media-body
-    %p.domain= link_to link.domain, domain_links_path(link.domain)
-    %h6.media-heading= link_to link.title.try(:html_safe), link.url, target: '_blank'
+    - if link.domain.present?
+      %p.domain= link_to link.domain, domain_links_path(link.domain)
+    %h6.media-heading
+      = embeddable_type(link) if embeddable?(link)
+      = link_to link.title.try(:html_safe), link.url, target: '_blank'
 
     %p.description
       - if link.description.present?
@@ -19,8 +22,7 @@
       - elsif link.lede.present?
         = link.lede.try(:html_safe)
 
-    - if link.embedly_json.present?
-      .embed= embed(link)
+    = embed(link)
 
     - if link.tags.any?
       .tags

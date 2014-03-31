@@ -22,5 +22,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require responsive-paginate
+//= require jquery.oembed
 //= require init
 //= require ui
+//= require links
