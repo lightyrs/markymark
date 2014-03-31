@@ -41,14 +41,19 @@ group :development do
   gem 'hub', require: nil
   gem 'quiet_assets'
   gem 'rails_layout'
-  gem 'awesome_print'
-  gem 'colored'
 end
 
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'dotenv-rails'
+  gem 'awesome_print'
+  gem 'colored'
+  gem 'pry'
+  gem 'pry-coolline'
+  gem 'pry-rails'
+  gem 'pry-remote'
+  gem 'pry-nav'
 end
 
 group :test do

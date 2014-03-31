@@ -5,10 +5,11 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
+    puts params.inspect.red
     if params[:tag]
       links = current_user.links.tagged_with(params[:tag])
-    elsif params[:domain]
-      links = current_user.links.where(domain: params[:domain])
+    elsif params[:site]
+      links = current_user.links.where(domain: params[:site])
     else
       links = current_user.links
     end

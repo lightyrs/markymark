@@ -6,7 +6,7 @@ Markymark::Application.routes.draw do
 
   resources :links, only: [ :index, :show ]
   get '/links/tags/(:tag)' => 'links#index', as: 'tagged_links'
-  get '/links/domains/(:domain)' => 'links#index', as: 'domain_links', constraints: { domain: /[^\/]+/ }
+  get '/links/domains/(:site)' => 'links#index', as: 'domain_links', constraints: { site: /[^\/]+/ }
 
   get '/auth/:provider/callback' => 'sessions#create'
   get '/login/:provider' => 'sessions#new', as: :login
