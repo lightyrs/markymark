@@ -88,6 +88,8 @@ class Reaper
   def create_links_from_pocket(links)
     links.each do |item_id, link_hash|
       begin
+        puts link_hash['given_url'].inspect.green
+        puts link_hash['resolved_url'].inspect.yellow
         @user.links.create(
           url: link_hash['resolved_url'] || link_hash['given_url'],
           title: link_hash['given_title'] || link_hash['resolved_title'],
@@ -95,7 +97,7 @@ class Reaper
           provider_id: @provider.id
         )
       rescue => e
-        puts "#{e.class}: #{e.message}".red
+        puts "Reaper#create_links_from_pocket: #{e.class}: #{e.message}".red
       end
     end
   end

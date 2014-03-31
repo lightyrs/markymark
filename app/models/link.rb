@@ -21,20 +21,46 @@ class Link < ActiveRecord::Base
 
   def fetch_metadata
     begin
-      self.url = meta_inspector_page.url
-      self.domain = meta_inspector_page.host.gsub('www.', '')
-      self.title = pismo_page.title
-      self.lede = pismo_page.lede
-      self.description = meta_inspector_page.meta['description']
-      self.image_url = meta_inspector_page.image
-      self.content = pismo_page.body
+      self.url = meta_inspector_page.url rescue self.url
+      self.domain = meta_inspector_page.host.gsub('www.', '') rescue domain_from_url(self.url)
+      self.title = pismo_page.title rescue self.title
+      self.lede = pismo_page.lede rescue nil
+      self.description = meta_inspector_page.meta['description'] rescue pismo_page.description
+      self.image_url = meta_inspector_page.image rescue nil
+      self.content = pismo_page.body rescue nil
       assign_tags
       sleep 0.05
       self
     rescue => e
-      puts "#{e.class}: #{e.message}".red
-      self
+      puts "Link#fetch_metadata: #{e.class}: #{e.message}".red
+      e.backtrace.each { |line| puts line.inspect.yellow }
+      if e.class == SocketError
+        fetch_metadata_fallback
+      else
+        self
+      end
     end
+  end
+
+  def fetch_metadata_fallback
+    begin
+      self.domain = domain_from_url(self.url) rescue nil
+      self.title = pismo_page.title
+      self.lede = pismo_page.lede
+      self.description = pismo_page.description
+      self.content = pismo_page.body
+      assign_tags(true)
+      sleep 0.05
+      self
+    rescue => e
+      puts "Link#fetch_metadata_fallback: #{e.class}: #{e.message}".red
+      errors.add(:base, "Metadata scraping failed.")
+      false
+    end
+  end
+
+  def domain_from_url(url)
+    Addressable::URI.parse(url).host
   end
 
   def meta_inspector_page
@@ -45,19 +71,29 @@ class Link < ActiveRecord::Base
     @pismo_page ||= Pismo::Document.new("#{meta_inspector_page}")
   end
 
-  def assign_tags
+  def assign_tags(fallback = false)
     begin
-      meta_inspector_keywords = if meta_inspector_page.meta['keywords'].present?
+      tags = fallback ? "#{pismo_keywords}" : "#{pismo_keywords}, #{meta_inspector_keywords}"
+      self.tag_list.add(tags, parse: true) if tags.present?
+    rescue => e
+      puts "Link#assign_tags: #{e.class}: #{e.message}".red
+    end
+  end
+
+  def meta_inspector_keywords
+    begin
+      if meta_inspector_page.meta['keywords'].present?
         meta_inspector_page.meta['keywords']
       elsif meta_inspector_page.meta_tags['name'].present?
         meta_inspector_page.meta['news_keywords']
       end
-      pismo_keywords = pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
-      tags = "#{meta_inspector_keywords}, #{pismo_keywords}"
-      self.tag_list.add(tags, parse: true) if tags.present?
     rescue => e
-      puts "#{e.class}: #{e.message}".red
+      nil
     end
+  end
+
+  def pismo_keywords
+    pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ') rescue nil
   end
 
   def worthy
