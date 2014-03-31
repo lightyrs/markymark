@@ -17,17 +17,21 @@ class Link < ActiveRecord::Base
 
   self.per_page = 50
 
+  def refresh
+    fetch_metadata
+  end
+
   private
 
   def fetch_metadata
     begin
       self.url = meta_inspector_page.url rescue self.url
-      self.domain = meta_inspector_page.host.gsub('www.', '') rescue domain_from_url(self.url)
-      self.title = pismo_page.title rescue self.title
-      self.lede = pismo_page.lede rescue nil
-      self.description = meta_inspector_page.meta['description'] rescue pismo_page.description
-      self.image_url = meta_inspector_page.image rescue nil
-      self.content = pismo_page.body rescue nil
+      self.domain = meta_inspector_page.host.gsub('www.', '')
+      self.title = pismo_page.title
+      self.lede = pismo_page.lede
+      self.description = meta_inspector_page.meta['description']
+      self.image_url = meta_inspector_page.image
+      self.content = pismo_page.body
       assign_tags
       sleep 0.05
       self
@@ -44,7 +48,7 @@ class Link < ActiveRecord::Base
 
   def fetch_metadata_fallback
     begin
-      self.domain = domain_from_url(self.url) rescue nil
+      self.domain = Addressable::URI.parse(self.url).host rescue nil
       self.title = pismo_page.title
       self.lede = pismo_page.lede
       self.description = pismo_page.description
@@ -57,10 +61,6 @@ class Link < ActiveRecord::Base
       errors.add(:base, "Metadata scraping failed.")
       false
     end
-  end
-
-  def domain_from_url(url)
-    Addressable::URI.parse(url).host
   end
 
   def meta_inspector_page
