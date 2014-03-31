@@ -11,6 +11,7 @@ class Link < ActiveRecord::Base
 
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
+  scope :pocket, -> { where(provider_id: Provider.pocket.id) }
 
   acts_as_taggable
 
@@ -60,7 +61,7 @@ class Link < ActiveRecord::Base
   end
 
   def worthy
-    unless description.present? || domain.present? || image_url.present?
+    unless description.present? || lede.present? || domain.present? || image_url.present?
       errors.add(:base, 'Link is not worthy.')
     end
   end
