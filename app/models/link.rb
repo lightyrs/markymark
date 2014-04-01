@@ -33,7 +33,6 @@ class Link < ActiveRecord::Base
       self.image_url = meta_inspector_page.image
       self.content = pismo_page.body
       assign_tags
-      sleep 0.05
       self
     rescue => e
       puts "Link#fetch_metadata: #{e.class}: #{e.message}".red
@@ -53,21 +52,19 @@ class Link < ActiveRecord::Base
       self.description = pismo_page.description
       self.content = pismo_page.body
       assign_tags(true)
-      sleep 0.05
       self
     rescue => e
       puts "Link#fetch_metadata_fallback: #{e.class}: #{e.message}".red
-      e.backtrace.each { |line| puts line.inspect.red_on_white }
       self
     end
   end
 
   def meta_inspector_page
-    @meta_inspector_page = MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
+    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
   end
 
   def pismo_page
-    @pismo_page = Pismo::Document.new(self.url)
+    @pismo_page ||= Pismo::Document.new(self.url)
   end
 
   def assign_tags(fallback = false)
