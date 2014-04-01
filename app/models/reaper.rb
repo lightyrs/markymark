@@ -88,14 +88,11 @@ class Reaper
   def create_links_from_pocket(links)
     links.each do |item_id, link_hash|
       begin
-        puts link_hash['given_url'].inspect.green
-        puts link_hash['resolved_url'].inspect.yellow
-        @user.links.create(
-          url: link_hash['resolved_url'] || link_hash['given_url'],
-          title: link_hash['given_title'] || link_hash['resolved_title'],
-          posted_at: DateTime.strptime(link_hash['time_added'], '%s'),
-          provider_id: @provider.id
-        )
+        url = link_hash['resolved_url'] || link_hash['given_url']
+        title = link_hash['given_title'] || link_hash['resolved_title']
+        posted_at = DateTime.strptime(link_hash['time_added'], '%s')
+        CreateLinksWorker.perform_async(url, title, posted_at, @provider.id, @user.id)
+        sleep 0.5
       rescue => e
         puts "Reaper#create_links_from_pocket: #{e.class}: #{e.message}".red
       end

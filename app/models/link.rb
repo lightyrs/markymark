@@ -47,7 +47,7 @@ class Link < ActiveRecord::Base
 
   def fetch_metadata_fallback
     begin
-      self.domain = Addressable::URI.parse(self.url).host rescue nil
+      self.domain = Addressable::URI.parse(self.url).host.gsub('www.', '') rescue nil
       self.title = pismo_page.title
       self.lede = pismo_page.lede
       self.description = pismo_page.description
@@ -57,16 +57,17 @@ class Link < ActiveRecord::Base
       self
     rescue => e
       puts "Link#fetch_metadata_fallback: #{e.class}: #{e.message}".red
+      e.backtrace.each { |line| puts line.inspect.red_on_white }
       self
     end
   end
 
   def meta_inspector_page
-    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
+    @meta_inspector_page = MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
   end
 
   def pismo_page
-    @pismo_page ||= Pismo::Document.new(self.url)
+    @pismo_page = Pismo::Document.new(self.url)
   end
 
   def assign_tags(fallback = false)
