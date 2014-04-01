@@ -39,14 +39,11 @@ class Reaper
 
   def create_link_from_facebook(link)
     begin
-      @user.links.create(
-        title: link['name'],
-        description: link['description'],
-        url: link['link'],
-        image_url: link['picture'],
-        posted_at: DateTime.parse(link['created_time']),
-        provider_id: @provider.id
-      )
+      url = link['link']
+      title = link['name']
+      posted_at = DateTime.parse(link['created_time'])
+      CreateLinksWorker.perform_async(url, title, posted_at, @provider.id, @user.id)
+      sleep 0.5
     rescue => e
       puts "#{e.class}: #{e.message}".red
     end
@@ -64,11 +61,10 @@ class Reaper
         links = tweet.urls.map(&:expanded_url).flatten.compact
         links.each do |link|
           begin
-            @user.links.create(
-              url: "#{link}",
-              posted_at: tweet.created_at,
-              provider_id: @provider.id
-            )
+            url = "#{link}"
+            posted_at = tweet.created_at
+            CreateLinksWorker.perform_async(url, nil, posted_at, @provider.id, @user.id)
+            sleep 0.5
           rescue => e
             puts "#{e.class}: #{e.message}".red
           end
