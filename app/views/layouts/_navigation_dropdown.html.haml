@@ -10,4 +10,6 @@
         %li= link_to 'Connect Facebook', login_path(provider: 'facebook')
       - unless current_user.connected_twitter?
         %li= link_to 'Connect Twitter', login_path(provider: 'twitter')
+      - unless current_user.connected_pocket?
+        %li= link_to 'Connect Pocket', login_path(provider: 'pocket')
       %li= link_to 'Logout', logout_path

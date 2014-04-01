@@ -37,7 +37,6 @@ class Link < ActiveRecord::Base
       self
     rescue => e
       puts "Link#fetch_metadata: #{e.class}: #{e.message}".red
-      e.backtrace.each { |line| puts line.inspect.yellow }
       if e.class == SocketError
         fetch_metadata_fallback
       else
@@ -58,8 +57,7 @@ class Link < ActiveRecord::Base
       self
     rescue => e
       puts "Link#fetch_metadata_fallback: #{e.class}: #{e.message}".red
-      errors.add(:base, "Metadata scraping failed.")
-      false
+      self
     end
   end
 
@@ -68,7 +66,11 @@ class Link < ActiveRecord::Base
   end
 
   def pismo_page
-    @pismo_page ||= Pismo::Document.new("#{meta_inspector_page}")
+    begin
+      @pismo_page ||= Pismo::Document.new("#{meta_inspector_page}")
+    rescue => e
+      @pismo_page ||= Pismo::Document.new(self.url)
+    end
   end
 
   def assign_tags(fallback = false)
@@ -81,19 +83,15 @@ class Link < ActiveRecord::Base
   end
 
   def meta_inspector_keywords
-    begin
-      if meta_inspector_page.meta['keywords'].present?
-        meta_inspector_page.meta['keywords']
-      elsif meta_inspector_page.meta_tags['name'].present?
-        meta_inspector_page.meta['news_keywords']
-      end
-    rescue => e
-      nil
+    if meta_inspector_page.meta['keywords'].present?
+      meta_inspector_page.meta['keywords']
+    elsif meta_inspector_page.meta_tags['name'].present?
+      meta_inspector_page.meta['news_keywords']
     end
   end
 
   def pismo_keywords
-    pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ') rescue nil
+    pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
   end
 
   def worthy

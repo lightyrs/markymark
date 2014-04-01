@@ -47,10 +47,14 @@ class User < ActiveRecord::Base
   end
 
   def connected_facebook?
-    identities.where(provider_id: Provider.find_by_name('facebook')).any?
+    identities.facebook.any?
   end
 
   def connected_twitter?
-    identities.where(provider_id: Provider.find_by_name('twitter')).any?
+    identities.twitter.any?
+  end
+
+  def connected_pocket?
+    identities.pocket.any?
   end
 end
