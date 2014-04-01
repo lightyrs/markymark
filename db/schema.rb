@@ -84,6 +84,4 @@ ActiveRecord::Schema.define(version: 20140331033103) do
   add_foreign_key "links", "providers", name: "links_provider_id_fk"
   add_foreign_key "links", "users", name: "links_user_id_fk"
 
-  add_foreign_key "taggings", "tags", name: "taggings_tag_id_fk"
-
 end
