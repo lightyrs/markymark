@@ -8,6 +8,7 @@ class Link < ActiveRecord::Base
   validate :worthy
 
   before_validation :fetch_metadata, on: :create
+  after_commit :assign
 
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
