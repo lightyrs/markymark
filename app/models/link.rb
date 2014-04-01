@@ -66,11 +66,7 @@ class Link < ActiveRecord::Base
   end
 
   def pismo_page
-    begin
-      @pismo_page ||= Pismo::Document.new("#{meta_inspector_page}")
-    rescue => e
-      @pismo_page ||= Pismo::Document.new(self.url)
-    end
+    @pismo_page ||= Pismo::Document.new(self.url)
   end
 
   def assign_tags(fallback = false)
