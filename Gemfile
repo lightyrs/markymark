@@ -37,7 +37,6 @@ gem 'bourbon'
 
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller', platforms: [:mri_19, :mri_20, :rbx]
   gem 'foreman'
   gem 'html2haml'
   gem 'hub', require: nil
@@ -56,6 +55,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-remote'
   gem 'pry-nav'
+  gem 'binding_of_caller'
 end
 
 group :test do
