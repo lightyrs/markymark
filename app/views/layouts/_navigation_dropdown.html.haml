@@ -12,4 +12,6 @@
         %li= link_to 'Connect Twitter', login_path(provider: 'twitter')
       - unless current_user.connected_pocket?
         %li= link_to 'Connect Pocket', login_path(provider: 'pocket')
+      - unless current_user.connected_instapaper?
+        %li= link_to 'Connect Instapaper', login_path(provider: 'instapaper')
       %li= link_to 'Logout', logout_path

@@ -57,4 +57,8 @@ class User < ActiveRecord::Base
   def connected_pocket?
     identities.pocket.any?
   end
+
+  def connected_instapaper?
+    identities.instapaper.any?
+  end
 end
