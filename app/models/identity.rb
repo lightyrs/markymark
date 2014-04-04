@@ -21,6 +21,9 @@ class Identity < ActiveRecord::Base
         identity.uid = auth['uid']
         identity.provider_id = Provider.find_by_name(auth['provider']).id
         identity.username = auth['username'] if auth['username']
+        if auth['credentials'] && auth['credentials']['secret']
+          identity.secret = auth['credentials']['secret']
+        end
         if auth['credentials'] && auth['credentials']['token']
           identity.token = auth['credentials']['token']
         end
@@ -29,6 +32,9 @@ class Identity < ActiveRecord::Base
   end
 
   def update_token(auth)
+    if auth['credentials'] && auth['credentials']['secret']
+      self.secret = auth['credentials']['secret']
+    end
     if auth['credentials'] && auth['credentials']['token']
       self.token = auth['credentials']['token']
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331033103) do
+ActiveRecord::Schema.define(version: 20140404053323) do
 
   create_table "identities", force: true do |t|
     t.string   "uid"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140331033103) do
     t.datetime "updated_at"
     t.text     "token"
     t.integer  "provider_id"
+    t.text     "secret"
   end
 
   add_index "identities", ["provider_id"], name: "identities_provider_id_fk", using: :btree

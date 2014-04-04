@@ -33,6 +33,11 @@ class User < ActiveRecord::Base
     identity.token
   end
 
+  def secret(options = {})
+    raise ArgumentError unless identity = identities.where(provider_id: options[:provider_id]).first
+    identity.secret
+  end
+
   def username(options = {})
     raise ArgumentError unless identity = identities.where(provider_id: options[:provider_id]).first
     identity.username

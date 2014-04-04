@@ -20,6 +20,7 @@ gem 'simple_form'
 gem 'thin'
 gem 'twitter'
 gem 'koala'
+gem 'instapaper_full'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'pismo'
