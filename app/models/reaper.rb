@@ -15,8 +15,6 @@ class Reaper
       harvest_links_from_twitter
     when 'pocket'
       harvest_links_from_pocket
-    when 'instapaper'
-      harvest_links_from_instapaper
     end
   end
 
@@ -95,10 +93,5 @@ class Reaper
         puts "Reaper#create_links_from_pocket: #{e.class}: #{e.message}".red
       end
     end
-  end
-
-  def harvest_links_from_instapaper
-    client = InstapaperClient.new(oauth_access_token: @user.token(provider_id: @provider.id), oauth_secret: @user.secret(provider_id: @provider.id))
-    links = client.list
   end
 end

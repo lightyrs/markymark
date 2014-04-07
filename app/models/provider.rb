@@ -11,7 +11,6 @@ class Provider < ActiveRecord::Base
       Provider.facebook
       Provider.twitter
       Provider.pocket
-      Provider.instapaper
     end
 
     def facebook
@@ -32,13 +31,6 @@ class Provider < ActiveRecord::Base
       find_or_create_by!(name: 'pocket') do |provider|
         provider.domain = 'getpocket.com'
         provider.description = 'Save For Later. Put articles, videos or pretty much anything into Pocket. Save directly from your browser or from apps like Twitter, Flipboard, Pulse and Zite.'
-      end
-    end
-
-    def instapaper
-      find_or_create_by!(name: 'instapaper') do |provider|
-        provider.domain = 'instapaper.com'
-        provider.description = 'A simple tool for saving web pages to read later on your iPhone, iPad, Android, computer, or Kindle.'
       end
     end
   end

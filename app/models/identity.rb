@@ -8,7 +8,6 @@ class Identity < ActiveRecord::Base
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
   scope :pocket, -> { where(provider_id: Provider.pocket.id) }
-  scope :instapaper, -> { where(provider_id: Provider.instapaper.id) }
 
   class << self
 
