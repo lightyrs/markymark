@@ -2,31 +2,33 @@
 
   - if link.image_url
 
-    = link_to image_tag(link.image_url, class: 'media-object img-rounded img-responsive img-64x64', alt: link.title), link.url, class: 'pull-left'
+    = link_to image_tag(link.image_url, class: 'media-object img-rounded img-responsive img-64x64', alt: link.title), link.url, class: 'pull-left link-image'
 
   - else
 
-    .pull-left
+    .pull-left.link-image
       .img-placeholder.img-64x64
 
   .media-body
-    - if link.domain.present?
-      %p.domain= link_to link.domain, domain_links_path(link.domain)
+
     %h6.media-heading
+      - if link.domain.present?
+        = link_to link.domain, domain_links_path(link.domain), class: 'domain'
+
       = embeddable_type(link) if embeddable?(link)
       = link_to link.title.try(:html_safe), link.url, target: '_blank'
 
     %p.description
       - if link.description.present?
-        = link.description.try(:html_safe)
+        = truncate(link.description, length: 140, separator: ' ').html_safe
       - elsif link.lede.present?
-        = link.lede.try(:html_safe)
+        = truncate(link.lede, length: 140, separator: ' ').html_safe
 
     = embed(link)
 
     - if link.tags.any?
       .tags
-        - link.tags.each do |tag|
-          = link_to tag, tagged_links_path("#{tag}"), class: 'label label-default'
+        - link.tags.first(3).each do |tag|
+          = link_to tag, tagged_links_path("#{tag}"), class: 'tag label label-default'
 
     -# %p.posted-at= link.posted_at.to_formatted_s

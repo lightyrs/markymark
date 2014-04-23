@@ -8,9 +8,16 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    .container
-      %header
-        = render 'layouts/navigation'
-      %main{:role => "main"}
-        = render 'layouts/messages'
-        = yield
+    .container-fluid
+      #sidebar.layout-col
+        .menu
+      #navigation.layout-col
+        .menu
+        .content.rendered.clearfix
+          = yield
+      #main.layout-col
+        .menu
+        .content.rendered.clearfix Hello
+
+        %footer
+          %p.pull-right &copy; 2014 lightyrs
