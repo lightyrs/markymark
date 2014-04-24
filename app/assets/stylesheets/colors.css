@@ -117,11 +117,6 @@
 .black {
   color: #111111; }
 
-/* Prettier Links */
-a {
-  -webkit-transition: color 0.3s ease-in-out;
-  transition: color 0.3s ease-in-out; }
-
 a:link {
   color: #0074d9; }
 

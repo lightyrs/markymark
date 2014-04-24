@@ -33,7 +33,7 @@ body {
 #navigation {
   border-right: 1px solid #c9c3d1;
   background-color: #fff;
-  width: 274px;
+  width: 324px;
   left: 147px;
 
   > .menu {
@@ -45,7 +45,7 @@ body {
 #main {
   background-color: #fff;
   width: auto;
-  left: 421px;
+  left: 471px;
 
   > .menu {
     @include box-shadow(0 1px 0 #c4bfcf, inset 0 1px 0 #fff);

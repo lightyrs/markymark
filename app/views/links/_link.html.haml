@@ -16,7 +16,7 @@
         = link_to link.domain, domain_links_path(link.domain), class: 'domain'
 
       = embeddable_type(link) if embeddable?(link)
-      = link_to link.title.try(:html_safe), link.url, target: '_blank'
+      = link_to link.title.try(:html_safe), link.url, target: '_blank', class: 'title'
 
     %p.description
       - if link.description.present?

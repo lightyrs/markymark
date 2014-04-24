@@ -20,12 +20,12 @@
 .links {
 
   &.media-list {
-    padding-top: 20px;
+    padding-top: 0;
 
     li {
-      height: 155px;
       margin-top: 0;
-      padding: 14px 13px;
+      padding: 13px 13px 12px;
+      border: 1px solid rgba(255, 255, 255, 0);
       border-top: 1px solid #c9c4d2;
       background-color: #fff;
       @include box-shadow(0 1px 0 #c9c3d1);
@@ -35,17 +35,50 @@
 
 .link {
 
+  &:hover {
+    border: 1px solid #2773ef;
+    @include background-image(linear-gradient(bottom, #4183ef 0%, #478bff 100%));
+
+    a {
+      color: #c8dcff;
+      text-shadow: 0 1px 0 rgba(0,0,0,.11);
+    }
+
+    .description {
+      color: #c8dcff;
+      text-shadow: 0 1px 0 rgba(0,0,0,.11);
+    }
+
+    .domain {
+      color: #c8dcff;
+      text-shadow: 0 1px 0 rgba(0,0,0,.11);
+    }
+
+    .title {
+      color: #fff;
+      text-shadow: 0 1px 0 rgba(0,0,0,.11);
+    }
+
+    .tag {
+      color: #266bdc;
+      box-shadow: 0 1px 0 rgba(0,0,0,.11);
+      background-color: #c8dcff;
+    }
+  }
+
   .link-image {
     display: none;
   }
 
   h6 {
     line-height: 15px;
+    @include transition(0);
 
     a {
       color: #266bdc;
       font-size: 13px;
       font-weight: bold;
+      @include transition(0);
     }
 
     .domain {
@@ -53,6 +86,7 @@
       font-size: 11px;
       font-weight: normal;
       color: #97959d;
+      @include transition(0);
     }
   }
 
@@ -66,8 +100,8 @@
   .media-trigger {
     cursor: pointer;
     position: relative;
-    top: -2px;
-    font-size: 16px;
+    top: 1px;
+    font-size: 14px;
 
     &:hover {
       color: #16A085;
@@ -85,25 +119,28 @@
 
   p {
     @include wrap-text;
+  }
 
-    &.description {
-      color: #97959d;
-      font-size: 11px;
-      line-height: 17px;
-      margin-bottom: 5px;
-    }
+  .description {
+    color: #97959d;
+    font-size: 11px;
+    line-height: 17px;
+    margin-bottom: 5px;
+  }
 
-    &.posted-at {
-      font-size: 13px;
-      line-height: 13px;
-      color: #C0C1C2;
-      font-weight: 400;
-      margin-bottom: 0;
-    }
+  .posted-at {
+    font-size: 13px;
+    line-height: 13px;
+    color: #C0C1C2;
+    font-weight: 400;
+    margin-bottom: 0;
   }
 
   .tag {
-    font-size: 10px;
+    color: #7B8996;
+    font-size: 12px;
+    background-color: #edebf3;
+    @include transition(0);
   }
 
   .embed {
