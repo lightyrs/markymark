@@ -9,14 +9,12 @@ Markymark::Application.routes.draw do
   get '/logout' => 'sessions#destroy', as: :logout
   get '/auth/failure' => 'sessions#failure'
 
-  resources :links, only: [ :index, :show ] do
+  resources :links do
     get 'tags', on: :collection
   end
 
   get '/links/tags/:tag' => 'links#index', as: 'tagged_links'
   get '/links/domains/(:site)' => 'links#index', as: 'domain_links', constraints: { site: /[^\/]+/ }
-
-  get '/admin' => 'admin#index'
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'

@@ -1,5 +1,7 @@
 class Link < ActiveRecord::Base
 
+  serialize :content_links, Array
+
   belongs_to :user
   belongs_to :provider
 
@@ -32,6 +34,8 @@ class Link < ActiveRecord::Base
       self.description = meta_inspector_page.meta['description']
       self.image_url = meta_inspector_page.image
       self.content = pismo_page.body
+      self.html_content = pismo_page.html_body
+      self.content_links = meta_inspector_page.links
       assign_tags
       self
     rescue => e

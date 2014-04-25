@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140404053323) do
+ActiveRecord::Schema.define(version: 20140425020710) do
 
   create_table "identities", force: true do |t|
     t.string   "uid"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20140404053323) do
     t.text     "description"
     t.text     "url"
     t.text     "image_url"
-    t.text     "content",     limit: 2147483647
+    t.text     "content",       limit: 2147483647
     t.string   "domain"
     t.datetime "posted_at"
     t.integer  "user_id"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20140404053323) do
     t.datetime "updated_at"
     t.integer  "provider_id"
     t.text     "lede"
+    t.text     "content_links", limit: 2147483647
+    t.text     "html_content",  limit: 2147483647
   end
 
   add_index "links", ["description", "domain", "title"], name: "index_links_on_description_and_domain_and_title", unique: true, length: {"description"=>100, "domain"=>nil, "title"=>100}, using: :btree

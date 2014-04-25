@@ -1,54 +1,31 @@
 @import 'bourbon';
 @import 'mixins';
 
-.tags {
-
-  .css1 {
-    font-size: 1.0em;
-  }
-  .css2 {
-    font-size: 1.3em;
-  }
-  .css3 {
-    font-size: 1.5em;
-  }
-  .css4 {
-    font-size: 1.75em;
-  }
-}
-
-.links {
+ul {
 
   &.media-list {
+    padding-top: 0;
 
-    li.link {
+    li {
+      margin-top: 0;
+      padding: 13px 13px 12px;
+      border: 1px solid rgba(255, 255, 255, 0);
+      border-top: 1px solid #c9c4d2;
+      background-color: #fff;
+      @include box-shadow(0 1px 0 #c9c3d1);
 
-      &:hover {
-
-        .description {
-          color: #c8dcff;
-          text-shadow: 0 1px 0 rgba(0,0,0,.11);
-        }
-
-        .domain {
-          color: #c8dcff;
-          text-shadow: 0 1px 0 rgba(0,0,0,.11);
-        }
-
-        .title {
-          color: #fff;
-          text-shadow: 0 1px 0 rgba(0,0,0,.11);
-        }
-
-        .tag {
-          color: #266bdc;
-          box-shadow: 0 1px 0 rgba(0,0,0,.11);
-          background-color: #c8dcff;
-        }
+      &:first-child {
+        border-top-color: rgba(255, 255, 255, 0);
       }
 
-      .link-image {
-        display: none;
+      &:hover {
+        border: 1px solid #2773ef;
+        @include background-image(linear-gradient(bottom, #4183ef 0%, #478bff 100%));
+
+        a {
+          color: #c8dcff;
+          text-shadow: 0 1px 0 rgba(0,0,0,.11);
+        }
       }
 
       h6 {
@@ -99,6 +76,10 @@
         color: #C0C1C2;
         font-weight: 400;
         margin-bottom: 0;
+      }
+
+      .link-image {
+        display: none;
       }
 
       .tag {
