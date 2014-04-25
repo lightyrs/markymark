@@ -54,6 +54,7 @@ body {
   left: 471px;
 
   > .menu {
+    height: 35px;
     @include box-shadow(0 1px 0 #c4bfcf, inset 0 1px 0 #fff);
     @include background-image(linear-gradient(bottom, #edeaf3 0%, #fff 100%));
   }

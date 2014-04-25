@@ -1,27 +1,11 @@
-%p#notice= notice
+- content_for :main do
 
-%p
-  %b Title:
-  = @link.title
-%p
-  %b Description:
-  = @link.description
-%p
-  %b Url:
-  = @link.url
-%p
-  %b Image url:
-  = @link.image_url
-%p
-  %b Content:
-  = @link.content
-%p
-  %b Domain:
-  = @link.domain
-%p
-  %b Posted at:
-  = @link.posted_at
+  .link{ id: "link_#{@link.id}" }
 
-= link_to 'Edit', edit_link_path(@link)
-\|
-= link_to 'Back', links_path
+    %h3.title
+      = link_to @link.title, @link.url, target: '_blank'
+
+    - if @link.html_content.present?
+      .html-content= @link.html_content.html_safe
+    - else
+      .content= @link.content

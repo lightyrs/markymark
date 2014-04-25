@@ -1,4 +1,4 @@
-= content_tag_for :li, link, class: "media #{domain_class_name(link)}" do
+= content_tag_for :li, link, class: "media #{domain_class_name(link)}", data: { id: link.id } do
 
   - if link.image_url
 
