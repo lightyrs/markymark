@@ -1,12 +1,14 @@
-- if @links.any?
+- content_for :list do
 
-  %ul.links.media-list
-    = render @links
+  - if @links.any?
 
-  .pagination-wrapper.text-center.clearfix
-    = will_paginate @links, previous_label: '&laquo;', next_label: '&raquo;'
-    .page-entries-info= page_entries_info @links
+    %ul.links.media-list
+      = render @links
 
-- else
+    .pagination-wrapper.text-center.clearfix
+      = will_paginate @links, previous_label: '&laquo;', next_label: '&raquo;'
+      .page-entries-info= page_entries_info @links
 
-  %h6 There are no links yet.
+  - else
+
+    %h6 There are no links yet.

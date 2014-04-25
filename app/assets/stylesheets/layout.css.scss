@@ -7,7 +7,7 @@ body {
 }
 
 .layout-col {
-  overflow: auto;
+  overflow: hidden;
   position: fixed;
   height: 100%;
   top: 0;
@@ -15,6 +15,11 @@ body {
   > .menu {
     width: 100%;
     height: 36px;
+  }
+
+  > .content {
+    height: 100%;
+    overflow: auto;
   }
 }
 
@@ -30,13 +35,14 @@ body {
   }
 }
 
-#navigation {
+#list {
   border-right: 1px solid #c9c3d1;
   background-color: #fff;
   width: 324px;
   left: 147px;
 
   > .menu {
+    border-bottom: 1px solid #c9c4d2;
     @include box-shadow(0 1px 0 #c9c3d1);
     @include background-image(linear-gradient(bottom, #edeaf3 0%, #f5f3f9 100%));
   }

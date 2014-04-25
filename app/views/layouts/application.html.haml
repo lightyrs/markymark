@@ -9,15 +9,6 @@
     = csrf_meta_tags
   %body
     .container-fluid
-      #sidebar.layout-col
-        .menu
-      #navigation.layout-col
-        .menu
-        .content.rendered.clearfix
-          = yield
-      #main.layout-col
-        .menu
-        .content.rendered.clearfix Hello
-
-        %footer
-          %p.pull-right &copy; 2014 lightyrs
+      = render 'layouts/sidebar'
+      = render 'layouts/list'
+      = render 'layouts/main'
