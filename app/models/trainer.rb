@@ -18,16 +18,19 @@ class Trainer
   def usa_today_sample
     @usa_today_client ||= UsaTodayClient.new
     @sample ||= @usa_today_client.sample
-    puts @sample.inspect.red
     @sample.each do |category, links|
       @bayes.add_category(category)
-      links.each do |link|
-        begin
-          page = Trainer.pismo_page(link)
-          @bayes.train_batch(category, [page.title, (page.lede || page.description), page.body])
-        rescue => e
-          puts "#{e.class}: #{e.message}".red
+      begin
+        links.each do |link|
+          begin
+            page = Trainer.pismo_page(link)
+            @bayes.train_batch(category, [page.title, (page.lede || page.description), page.body])
+          rescue => e
+            puts "#{e.class}: #{e.message}".red
+          end
         end
+      rescue => e
+        puts "#{e.class}: #{e.message}".red
       end
     end
     @bayes.to_hash
