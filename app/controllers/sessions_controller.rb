@@ -1,12 +1,14 @@
 class SessionsController < ApplicationController
 
+  after_action :after_login_flow, only: [:create]
+
   def new
     redirect_to "/auth/#{params[:provider]}"
   end
 
   def create
     auth = request.env['omniauth.auth']
-    
+
     # Find an identity here
     @identity = Identity.find_with_omniauth(auth)
 
@@ -27,8 +29,7 @@ class SessionsController < ApplicationController
         # The identity is not associated with the current_user so lets
         # associate the identity
         @identity.user = current_user
-        @identity.save()
-        HarvestLinksWorker.perform_async(@identity.user.id, @identity.provider.id)
+        @identity.save
         redirect_to root_url, notice: "Successfully linked that account!"
       end
     else
@@ -37,10 +38,12 @@ class SessionsController < ApplicationController
         # just log them in here
         self.current_user = @identity.user
         @identity.update_token(auth)
+        @just_logged_in = true
         redirect_to root_url, notice: "Logged in!"
       else
         # No user associated with the identity so we need to create a new one
         self.current_user = User.find_or_create_with_omniauth(@identity, auth)
+        @just_logged_in = true
         redirect_to root_url, notice: "Logged in!"
       end
     end
@@ -53,5 +56,16 @@ class SessionsController < ApplicationController
 
   def failure
     redirect_to root_url, alert: "Authentication error: #{params[:message].humanize}"
+  end
+
+  private
+
+  def after_login_flow
+    if current_user.logged_in_at && current_user.logged_in_at < 1.day.ago
+      HarvestLinksWorker.perform_async(@identity.user.id)
+    end
+    if @just_logged_in
+      current_user.update_attributes(logged_in_at: Time.now)
+    end
   end
 end

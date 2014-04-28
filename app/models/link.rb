@@ -19,8 +19,16 @@ class Link < ActiveRecord::Base
 
   self.per_page = 50
 
+  class << self
+
+    def refresh_all
+      Link.find_each(&:refresh)
+    end
+  end
+
   def refresh
     fetch_metadata
+    save!
   end
 
   private

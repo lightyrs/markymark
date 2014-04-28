@@ -4,25 +4,33 @@ class Reaper
 
   def initialize(options = {})
     raise ArgumentError unless @user = User.find(options[:user_id])
-    raise ArgumentError unless @provider = Provider.find_by_id(options[:provider_id])
+    @provider = Provider.find_by_id(options[:provider_id])
   end
 
   def harvest_links
-    case @provider.name
+    case @provider.try(:name)
     when 'facebook'
       harvest_links_from_facebook
     when 'twitter'
       harvest_links_from_twitter
     when 'pocket'
       harvest_links_from_pocket
+    else
+      harvest_links_from_all_providers
     end
   end
 
   private
 
+  def harvest_links_from_all_providers
+    harvest_links_from_facebook
+    harvest_links_from_twitter
+    harvest_links_from_pocket
+  end
+
   def harvest_links_from_facebook(links = nil, options = {})
     begin
-      @graph ||= GraphClient.new(@user.token(provider_id: @provider.id))
+      @graph ||= GraphClient.new(@user.token(provider_id: Provider.facebook.id))
       links ||= @graph.links
       links.each_with_index do |link, index|
         if index == (links.count - 1)
@@ -42,7 +50,7 @@ class Reaper
       url = link['link']
       title = link['name']
       posted_at = DateTime.parse(link['created_time'])
-      CreateLinksWorker.perform_async(url, title, posted_at, @provider.id, @user.id)
+      CreateLinksWorker.perform_async(url, title, posted_at, Provider.facebook.id, @user.id)
       sleep 0.5
     rescue => e
       puts "#{e.class}: #{e.message}".red
@@ -51,7 +59,7 @@ class Reaper
 
   def harvest_links_from_twitter
     client = TwitterClient.new
-    tweets = client.all_tweets(@user.username(provider_id: @provider.id))
+    tweets = client.all_tweets(@user.username(provider_id: Provider.twitter.id))
     create_links_from_twitter(tweets.select(&:urls?))
   end
 
@@ -63,7 +71,7 @@ class Reaper
           begin
             url = "#{link}"
             posted_at = tweet.created_at
-            CreateLinksWorker.perform_async(url, nil, posted_at, @provider.id, @user.id)
+            CreateLinksWorker.perform_async(url, nil, posted_at, Provider.twitter.id, @user.id)
             sleep 0.5
           rescue => e
             puts "#{e.class}: #{e.message}".red
@@ -76,7 +84,7 @@ class Reaper
   end
 
   def harvest_links_from_pocket
-    client = PocketClient.new(@user.token(provider_id: @provider.id))
+    client = PocketClient.new(@user.token(provider_id: Provider.pocket.id))
     links = client.retrieve_list
     create_links_from_pocket(links)
   end
@@ -87,7 +95,7 @@ class Reaper
         url = link_hash['resolved_url'] || link_hash['given_url']
         title = link_hash['given_title'] || link_hash['resolved_title']
         posted_at = DateTime.strptime(link_hash['time_added'], '%s')
-        CreateLinksWorker.perform_async(url, title, posted_at, @provider.id, @user.id)
+        CreateLinksWorker.perform_async(url, title, posted_at, Provider.pocket.id, @user.id)
         sleep 0.5
       rescue => e
         puts "Reaper#create_links_from_pocket: #{e.class}: #{e.message}".red
