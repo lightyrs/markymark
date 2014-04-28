@@ -13,11 +13,17 @@ class UsaTodayClient
     usa_today_news_categories.each do |section, category|
       begin
         @section = section
-        a = articles
-        category.each do |cat|
-          sample["#{cat}"] = a
+        if a = articles
+          category.each do |cat|
+            sample["#{cat}"] = a
+          end
+        else
+          b = articles
+          category.each do |cat|
+            sample["#{cat}"] = b
+          end
         end
-        sleep 2
+        sleep 4
       rescue => e
         puts "#{e.class}: #{e.message}".red
       end
