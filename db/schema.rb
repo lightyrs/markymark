@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140428203916) do
+ActiveRecord::Schema.define(version: 20140428231425) do
 
   create_table "classifications", force: true do |t|
     t.string   "name"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20140428203916) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "classifications", ["content_type", "name"], name: "index_classifications_on_content_type_and_name", unique: true, using: :btree
 
   create_table "identities", force: true do |t|
     t.string   "uid"

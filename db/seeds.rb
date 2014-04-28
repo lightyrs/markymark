@@ -1,1 +1,2 @@
 Provider.seed
+Classification.seed
