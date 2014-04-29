@@ -1,6 +1,8 @@
-- content_for :list do
+- content_for :list_menu do
 
   %h3 Login
+
+- content_for :list do
 
   %ul.providers.media-list
     = content_tag_for :li, Provider.all do |provider|

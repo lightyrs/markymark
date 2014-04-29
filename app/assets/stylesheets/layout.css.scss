@@ -123,6 +123,7 @@ body {
 }
 
 #sidebar {
+  min-width: 147px;
   background-color: #333139;
   @include box-shadow(1px 0 0 #242229);
 
@@ -133,6 +134,7 @@ body {
 }
 
 #list {
+  min-width: 324px;
   border-right: 1px solid #c9c3d1;
   background-color: #fff;
 
@@ -140,6 +142,15 @@ body {
     border-bottom: 1px solid #c9c4d2;
     @include box-shadow(0 1px 0 #c9c3d1);
     @include background-image(linear-gradient(bottom, #edeaf3 0%, #f5f3f9 100%));
+
+    h3 {
+      color: #6d6a73;
+      font-size: 13px;
+      font-weight: normal;
+      margin: 0;
+      padding: 0;
+      line-height: 35px;
+    }
   }
 }
 
