@@ -2,8 +2,6 @@ class LinksController < ApplicationController
 
   before_action :set_link, only: [:show]
 
-  # GET /links
-  # GET /links.json
   def index
     if params[:tag]
       links = current_user.links.tagged_with(params[:tag])
@@ -15,14 +13,10 @@ class LinksController < ApplicationController
     @links = links.page(params[:page]).order('posted_at DESC')
   end
 
-  # GET /links/new
-  # GET /links/new.json
   def new
     @link = current_user.links.build
   end
 
-  # POST /links
-  # POST /links.json
   def create
     @link = current_user.links.build(link_params.merge(posted_at: Time.now))
 
@@ -33,8 +27,6 @@ class LinksController < ApplicationController
     end
   end
 
-  # GET /links/1
-  # GET /links/1.json
   def show
   end
 

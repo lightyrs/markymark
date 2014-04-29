@@ -16,6 +16,8 @@ Markymark::Application.routes.draw do
   get '/links/tags/:tag' => 'links#index', as: 'tagged_links'
   get '/links/domains/(:site)' => 'links#index', as: 'domain_links', constraints: { site: /[^\/]+/ }
 
+  resources :classifications, only: [ :index, :new, :create, :show, :update ]
+
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 end
