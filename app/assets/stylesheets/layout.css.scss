@@ -1,16 +1,115 @@
 @import 'bourbon';
 
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   padding-top: 0;
   background-color: #fff;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  > .container-fluid {
+    height: 100%;
+
+    &:before {
+      display: none;
+    }
+
+    > .row {
+      height: 100%;
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+}
+
+.container-xs-height {
+  display: table;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.row-xs-height {
+  display: table-row;
+}
+
+.col-xs-height {
+  display: table-cell;
+  float: none;
+}
+
+.col-top {
+  vertical-align: top;
+}
+
+.col-middle {
+  vertical-align: middle;
+}
+
+.col-bottom {
+  vertical-align: bottom;
+}
+
+@media (min-width: 768px) {
+
+  .container-sm-height {
+    display: table;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .row-sm-height {
+    display: table-row;
+  }
+
+  .col-sm-height {
+    display: table-cell;
+    float: none;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .container-md-height {
+    display: table;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .row-md-height {
+    display: table-row;
+  }
+
+  .col-md-height {
+    display: table-cell;
+    float: none;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .container-lg-height {
+    display: table;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .row-lg-height {
+    display: table-row;
+  }
+
+  .col-lg-height {
+    display: table-cell;
+    float: none;
+  }
 }
 
 .layout-col {
-  overflow: hidden;
-  position: fixed;
-  height: 100%;
-  top: 0;
+  padding: 0;
 
   > .menu {
     width: 100%;
@@ -25,8 +124,6 @@ body {
 
 #sidebar {
   background-color: #333139;
-  width: 147px;
-  left: 0;
   @include box-shadow(1px 0 0 #242229);
 
   > .menu {
@@ -38,8 +135,6 @@ body {
 #list {
   border-right: 1px solid #c9c3d1;
   background-color: #fff;
-  width: 324px;
-  left: 147px;
 
   > .menu {
     border-bottom: 1px solid #c9c4d2;
@@ -50,18 +145,10 @@ body {
 
 #main {
   background-color: #fff;
-  width: auto;
-  left: 471px;
 
   > .menu {
     height: 35px;
     @include box-shadow(0 1px 0 #c4bfcf, inset 0 1px 0 #fff);
     @include background-image(linear-gradient(bottom, #edeaf3 0%, #fff 100%));
   }
-}
-
-footer {
-  padding-left: 15px;
-  padding-right: 15px;
-  background-color: #fff;
 }

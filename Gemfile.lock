@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     RubyInline (3.12.2)
       ZenTest (~> 4.3)
@@ -42,7 +43,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     birch (0.0.8)
-    bootstrap-sass (3.1.1.0)
+    bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
     bourbon (3.1.8)
       sass (>= 3.2.0)
@@ -261,6 +262,9 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.4)
       sprockets-rails (~> 2.0.0)
+    rails-assets-jquery (2.1.0)
+    rails-assets-select2 (3.4.6)
+      rails-assets-jquery (>= 1.7.1)
     rails_layout (1.0.13)
     railties (4.0.4)
       actionpack (= 4.0.4)
@@ -295,7 +299,7 @@ GEM
     rwordnet (0.1.3)
     sanitize (2.1.0)
       nokogiri (>= 1.4.4)
-    sass (3.2.18)
+    sass (3.2.19)
     sass-rails (4.0.2)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.2.0)
@@ -445,6 +449,7 @@ DEPENDENCIES
   punkt-segmenter
   quiet_assets
   rails (= 4.0.4)
+  rails-assets-select2
   rails_layout
   rb-libsvm
   rbtagger

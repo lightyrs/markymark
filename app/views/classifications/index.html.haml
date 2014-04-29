@@ -1,8 +1,9 @@
-- content_for :list do
+- content_for :list_menu do
 
   %h3 Classifications
 
 - content_for :main do
 
   = simple_form_for StructuralClassification.new, url: classifications_url do |f|
-    = f.input :name, collection: Classification.all, label_method: :name
+    
+    = f.input :name, as: :grouped_collection_select, collection: Classification.all.group_by(&:content_type),  group_method: :last, input_html: { class: 'select2' }

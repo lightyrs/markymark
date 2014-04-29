@@ -8,7 +8,8 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    .container-fluid
-      = render 'layouts/sidebar'
-      = render 'layouts/list'
-      = render 'layouts/main'
+    .container-fluid.container-xs-height
+      .row.row-xs-height
+        = render 'layouts/sidebar'
+        = render 'layouts/list'
+        = render 'layouts/main'

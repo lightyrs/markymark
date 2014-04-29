@@ -1,2 +1,3 @@
-#sidebar.layout-col
-  .menu
+#sidebar.col-xs-2.col-xs-height.col-top.layout-col
+  .menu= yield :sidebar_menu
+  .content.rendered.clearfix= yield :sidebar

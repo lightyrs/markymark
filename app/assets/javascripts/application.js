@@ -23,6 +23,7 @@
 //= require bootstrap
 //= require responsive-paginate
 //= require jquery.oembed
+//= require select2
 //= require init
 //= require ui
 //= require links

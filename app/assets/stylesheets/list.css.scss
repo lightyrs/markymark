@@ -19,6 +19,7 @@ ul {
       }
 
       &:hover {
+        cursor: pointer;
         border: 1px solid #2773ef;
         @include background-image(linear-gradient(bottom, #4183ef 0%, #478bff 100%));
 

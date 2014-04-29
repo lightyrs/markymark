@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 ruby '2.1.1'
 
 gem 'rails', '4.0.4'
@@ -38,6 +39,8 @@ gem 'less-rails-bootstrap'
 gem 'jquery-ui-rails'
 gem 'designmodo-flatuipro-rails', '~> 1.2.5.0.branch'
 gem 'bourbon'
+
+gem 'rails-assets-select2'
 
 group :development do
   gem 'better_errors'
