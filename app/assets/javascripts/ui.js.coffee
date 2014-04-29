@@ -8,4 +8,5 @@ Application.UI =
     $('.pagination').rPage()
 
   initSelect2: ->
-  	$('select.select2').select2()
+  	$('select.select2').select2
+  		allowClear: true

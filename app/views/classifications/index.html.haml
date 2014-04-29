@@ -4,6 +4,6 @@
 
 - content_for :main do
 
-  = simple_form_for StructuralClassification.new, url: classifications_url do |f|
+  = default_form_for StructuralClassification.new, url: classifications_url do |f|
     
-    = f.input :name, as: :grouped_collection_select, collection: Classification.all.group_by(&:content_type),  group_method: :last, input_html: { class: 'select2' }
+    = f.input :name, as: :grouped_collection_select, collection: Classification.all.group_by(&:content_type), group_method: :last, label: false, input_html: { class: 'select2 input-lg', 'data-placeholder' => 'Classify the Document Structure' }

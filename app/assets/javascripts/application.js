@@ -17,10 +17,11 @@
 //= require jquery.ui.spinner
 //= require jquery.ui.tooltip
 //= require jquery.ui.effect
-//= require flatuipro
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
+//= require bootstrap-datepicker
+//= require bootstrap-datetimepicker
 //= require responsive-paginate
 //= require jquery.oembed
 //= require select2

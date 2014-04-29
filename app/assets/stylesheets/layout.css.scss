@@ -12,6 +12,7 @@ body {
 
   > .container-fluid {
     height: 100%;
+    overflow: hidden;
 
     &:before {
       display: none;
@@ -19,6 +20,7 @@ body {
 
     > .row {
       height: 100%;
+      overflow: hidden;
 
       &:before {
         display: none;
@@ -110,6 +112,7 @@ body {
 
 .layout-col {
   padding: 0;
+  overflow: hidden;
 
   > .menu {
     width: 100%;
@@ -128,6 +131,7 @@ body {
   @include box-shadow(1px 0 0 #242229);
 
   > .menu {
+    height: 35px;
     @include box-shadow(0 1px 0 #413e49, inset 0 1px 2px #161519);
     @include background-image(linear-gradient(bottom, #2c2932 0%, #2e2c34 100%));
   }
@@ -148,7 +152,7 @@ body {
       font-size: 13px;
       font-weight: normal;
       margin: 0;
-      padding: 0;
+      padding: 0 13px;
       line-height: 35px;
     }
   }
@@ -161,5 +165,9 @@ body {
     height: 35px;
     @include box-shadow(0 1px 0 #c4bfcf, inset 0 1px 0 #fff);
     @include background-image(linear-gradient(bottom, #edeaf3 0%, #fff 100%));
+  }
+
+  > .content {
+    padding: 20px 50px 140px 40px;
   }
 }

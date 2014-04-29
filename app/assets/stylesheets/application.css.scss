@@ -9,9 +9,11 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require twitter/bootstrap
+ *= require bootstrap-datepicker
+ *= require bootstrap-datetimepicker
  *= require jquery.oembed
  *= require select2
- *= require ./flatuipro
+ *= require select2-bootstrap
  *= require ./layout
  *= require ./ui
  *= require ./list
