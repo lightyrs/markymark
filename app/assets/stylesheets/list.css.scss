@@ -28,6 +28,12 @@ ul {
         }
       }
 
+      a {
+        color: #266bdc;
+        font-weight: bold;
+        @include transition(0);
+      }
+
       h6 {
         line-height: 15px;
         @include transition(0);

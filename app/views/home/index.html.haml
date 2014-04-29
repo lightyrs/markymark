@@ -1,1 +1,7 @@
-%h3 Home
+- content_for :list do
+
+  %h3 Login
+
+  %ul.providers.media-list
+    = content_tag_for :li, Provider.all do |provider|
+      = link_to "Login with #{provider.name.try(:titleize)}", login_path(provider)

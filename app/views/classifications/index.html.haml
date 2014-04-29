@@ -1,0 +1,8 @@
+- content_for :list do
+
+  %h3 Classifications
+
+- content_for :main do
+
+  = simple_form_for StructuralClassification.new, url: classifications_url do |f|
+    = f.input :name, collection: Classification.all, label_method: :name
