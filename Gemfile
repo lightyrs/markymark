@@ -21,6 +21,7 @@ gem 'simple_form'
 gem 'thin'
 gem 'twitter'
 gem 'koala'
+gem 'randumb'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'treat'

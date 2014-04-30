@@ -10,10 +10,10 @@
 
     - if @sample.present?
 
-      %dl.dl-horizontal
-        - for attribute in @sample.attributes
-          %dt= attribute.human_name
-          %dd= attribute.name
+      %dl.dl-horizontal.clearfix
+        - @sample.attributes.each do |key, value|
+          %dt= key.humanize
+          %dd= value
 
       = f.input :sample_id, value: @sample.id, as: :hidden, label: false, input_html: { class: 'input-lg', placeholder: 'Sample' }
     

@@ -68,6 +68,7 @@
           font-size: 11px;
           font-weight: normal;
           color: #97959d;
+          padding-bottom: 3px;
           @include transition(0);
         }
       }
@@ -102,9 +103,13 @@
         margin-bottom: 0;
       }
 
+      .tags {
+        padding-bottom: 3px;
+      }
+
       .tag {
         color: #7B8996;
-        font-size: 12px;
+        font-weight: normal;
         background-color: #edebf3;
         @include transition(0);
       }

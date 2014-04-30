@@ -9,11 +9,11 @@ class Reaper
 
   def harvest_links
     case @provider.try(:name)
-    when 'facebook'
+    when 'Facebook'
       harvest_links_from_facebook
-    when 'twitter'
+    when 'Twitter'
       harvest_links_from_twitter
-    when 'pocket'
+    when 'Pocket'
       harvest_links_from_pocket
     else
       harvest_links_from_all_providers

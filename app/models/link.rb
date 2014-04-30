@@ -21,10 +21,6 @@ class Link < ActiveRecord::Base
 
   class << self
 
-    def random
-      Link.first(conditions: ['id >= ?', rand(Link.count)])
-    end
-
     def refresh_all
       Link.find_each(&:refresh)
     end
@@ -46,8 +42,8 @@ class Link < ActiveRecord::Base
       self.description = meta_inspector_page.meta['description']
       self.image_url = meta_inspector_page.image
       self.content = pismo_page.body
-      self.html_content = pismo_page.html_body
-      self.content_links = meta_inspector_page.links
+      # self.html_content = pismo_page.html_body
+      # self.content_links = meta_inspector_page.links
       assign_tags
       self
     rescue => e
@@ -103,7 +99,7 @@ class Link < ActiveRecord::Base
   end
 
   def meta_inspector_page
-    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
+    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 4, allow_redirections: :all)
   end
 
   def pismo_page

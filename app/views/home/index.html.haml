@@ -1,9 +1,36 @@
 - content_for :list_menu do
 
-  %h3 Login
+  - if signed_in?
+
+    %h3= current_user.name
+
+  - else
+  
+    %h3 Login
 
 - content_for :list do
 
-  %ul.providers.media-list
-    = content_tag_for :li, Provider.all do |provider|
-      = link_to "Login with #{provider.name.try(:titleize)}", login_path(provider)
+  - if signed_in?
+
+    %ul.providers.media-list
+
+      - if current_user.connected_providers.any?
+
+        %li.list-header Connected
+        - current_user.connected_providers.each do |provider|
+          %li.connected-provider.stateless
+            = provider.name
+
+      - if current_user.disconnected_providers.any?
+
+        %li.list-header Disconnected
+        - current_user.disconnected_providers.each do |provider|
+          %li.disconnected-provider.list-item-link
+            = link_to provider.name, login_path(provider)
+
+  - else
+
+    %ul.providers.media-list
+      %li.list-header Providers
+      = content_tag_for :li, Provider.all, class: 'list-item-link' do |provider|
+        = link_to "Login with #{provider.name}", login_path(provider)
