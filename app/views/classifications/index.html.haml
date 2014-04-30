@@ -11,3 +11,5 @@
     = f.input :name, as: :grouped_collection_select, collection: Classification.all.group_by(&:content_type), group_method: :last, label: false, input_html: { class: 'select2 input-lg', 'data-placeholder' => 'What kind of document is this?' }
 
     = f.input :tags, label: false, input_html: { class: 'select2-ajax input-lg', data: { url: tags_url, multiple: true, placeholder: 'What kind of content is this?' } }
+
+    = f.button :submit, 'Save', class: 'btn-primary btn-block btn-lg'

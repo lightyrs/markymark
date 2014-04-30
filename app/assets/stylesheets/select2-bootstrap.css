@@ -347,8 +347,12 @@
   padding-left: 6px;
 }
 
-.select2-result-with-children {
+.select2-results li.select2-result-with-children {
   padding-left: 0;
+}
+
+.select2-results li.select2-result-with-children .select2-result-label {
+  padding-left: 14px;
 }
 
 /**
