@@ -1,6 +1,10 @@
 form {
 
 	input, select, textarea, button, a, span {
-		outline: none;
+		outline: none !important;
 	}
+
+  > div.input {
+    margin-bottom: 20px;
+  }
 }

@@ -71,14 +71,6 @@ class Link < ActiveRecord::Base
     end
   end
 
-  def meta_inspector_page
-    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
-  end
-
-  def pismo_page
-    @pismo_page ||= Pismo::Document.new(self.url)
-  end
-
   def assign_tags(fallback = false)
     begin
       tags = fallback ? "#{pismo_keywords}" : "#{pismo_keywords}, #{meta_inspector_keywords}"
@@ -97,12 +89,20 @@ class Link < ActiveRecord::Base
   end
 
   def pismo_keywords
-    pismo_page.keywords.flatten.select {|k| k.is_a? String }.join(', ')
+    pismo_page.keywords.flatten.select {|k| k.is_a?(String) && k.length < 100 }.join(', ')
   end
 
   def worthy
     unless description.present? || lede.present? || domain.present? || image_url.present?
       errors.add(:base, 'Link is not worthy.')
     end
+  end
+
+  def meta_inspector_page
+    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 5, allow_redirections: :all)
+  end
+
+  def pismo_page
+    @pismo_page ||= Pismo::Document.new(self.url)
   end
 end

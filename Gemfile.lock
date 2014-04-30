@@ -259,6 +259,7 @@ GEM
       railties (= 4.0.4)
       sprockets-rails (~> 2.0.0)
     rails-assets-jquery (2.1.0)
+    rails-assets-lodash (2.4.1)
     rails-assets-select2 (3.4.6)
       rails-assets-jquery (>= 1.7.1)
     rails_layout (1.0.13)
@@ -447,6 +448,7 @@ DEPENDENCIES
   punkt-segmenter
   quiet_assets
   rails (= 4.0.4)
+  rails-assets-lodash
   rails-assets-select2
   rails_layout
   rb-libsvm

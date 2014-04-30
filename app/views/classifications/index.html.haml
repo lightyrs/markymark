@@ -4,6 +4,10 @@
 
 - content_for :main do
 
-  = default_form_for StructuralClassification.new, url: classifications_url do |f|
+  = default_form_for :structural_classification, url: classifications_url do |f|
+
+    %legend Classifier
     
-    = f.input :name, as: :grouped_collection_select, collection: Classification.all.group_by(&:content_type), group_method: :last, label: false, input_html: { class: 'select2 input-lg', 'data-placeholder' => 'Classify the Document Structure' }
+    = f.input :name, as: :grouped_collection_select, collection: Classification.all.group_by(&:content_type), group_method: :last, label: false, input_html: { class: 'select2 input-lg', 'data-placeholder' => 'What kind of document is this?' }
+
+    = f.input :tags, label: false, input_html: { class: 'select2-ajax input-lg', data: { url: tags_url, multiple: true, placeholder: 'What kind of content is this?' } }

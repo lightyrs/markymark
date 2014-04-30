@@ -41,6 +41,7 @@ gem 'jquery-ui-rails'
 gem 'bourbon'
 
 gem 'rails-assets-select2'
+gem 'rails-assets-lodash'
 
 group :development do
   gem 'better_errors'

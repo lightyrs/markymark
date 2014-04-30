@@ -31,7 +31,7 @@ class LinksController < ApplicationController
   end
 
   def tags
-    @tags = Link.tag_counts_on(:tags)
+    @tags = ActsAsTaggableOn::Tag.where('lower(name) like ?', "%#{params[:q].downcase}%").limit(100)
   end
 
   private
