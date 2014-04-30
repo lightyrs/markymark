@@ -7,6 +7,10 @@
 .select2-drop {
   margin-top: -3px;
 }
+
+.select2-drop.select2-drop-above {
+  margin-top: 3px;
+}
 /**
  * Reset Bootstrap 3 .form-control styles which - if applied to the
  * original <select>-element the Select2-plugin may be run against -
@@ -475,4 +479,9 @@
   /* 4 */
   background-position: right 4px center;
   /* 5 */
+}
+
+.select2-dropdown-open.select2-drop-above .select2-choice, 
+.select2-dropdown-open.select2-drop-above .select2-choices {
+  background: none;
 }

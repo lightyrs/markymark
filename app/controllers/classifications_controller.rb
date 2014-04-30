@@ -3,7 +3,7 @@ class ClassificationsController < ApplicationController
   before_action :set_classification, only: [:show]
 
   def index
-    @classifications = Classification.all
+    @sample = Link.random
   end
 
   def new

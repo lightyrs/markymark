@@ -21,6 +21,10 @@ class Link < ActiveRecord::Base
 
   class << self
 
+    def random
+      Link.first(conditions: ['id >= ?', rand(Link.count)])
+    end
+
     def refresh_all
       Link.find_each(&:refresh)
     end
