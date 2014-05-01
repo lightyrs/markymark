@@ -12,6 +12,6 @@ class CreateLinksWorker
       provider_id: provider_id,
       user_id: user_id
     )
-    link.save!
+    link.save
   end
 end
