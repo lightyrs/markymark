@@ -51,7 +51,6 @@ class Reaper
       title = link['name']
       posted_at = DateTime.parse(link['created_time'])
       CreateLinksWorker.perform_async(url, title, posted_at, Provider.facebook.id, @user.id)
-      sleep 0.5
     rescue => e
       puts "#{e.class}: #{e.message}".red
     end
@@ -72,7 +71,6 @@ class Reaper
             url = "#{link}"
             posted_at = tweet.created_at
             CreateLinksWorker.perform_async(url, nil, posted_at, Provider.twitter.id, @user.id)
-            sleep 0.5
           rescue => e
             puts "#{e.class}: #{e.message}".red
           end
@@ -96,7 +94,6 @@ class Reaper
         title = link_hash['given_title'] || link_hash['resolved_title']
         posted_at = DateTime.strptime(link_hash['time_added'], '%s')
         CreateLinksWorker.perform_async(url, title, posted_at, Provider.pocket.id, @user.id)
-        sleep 0.5
       rescue => e
         puts "Reaper#create_links_from_pocket: #{e.class}: #{e.message}".red
       end

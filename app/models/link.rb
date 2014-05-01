@@ -41,11 +41,10 @@ class Link < ActiveRecord::Base
       self.lede = pismo_page.lede
       self.description = meta_inspector_page.meta['description']
       self.image_url = meta_inspector_page.image
-      # self.content = pismo_page.body
+      self.content = pismo_page.body
       # self.html_content = pismo_page.html_body
       # self.content_links = meta_inspector_page.links
       assign_tags
-      self
     rescue => e
       puts "Link#fetch_metadata: #{e.class}: #{e.message}".red
       if e.class == SocketError
@@ -64,7 +63,6 @@ class Link < ActiveRecord::Base
       self.description = pismo_page.description
       self.content = pismo_page.body
       assign_tags
-      self
     rescue => e
       puts "Link#fetch_metadata_fallback: #{e.class}: #{e.message}".red
       false
@@ -73,7 +71,7 @@ class Link < ActiveRecord::Base
 
   def assign_tags
     begin
-      self.tag_list.add("#{pismo_keywords}", parse: true) if tags.present?
+      self.tag_list.add("#{pismo_keywords}", parse: true)
     rescue => e
       puts "Link#assign_tags: #{e.class}: #{e.message}".red
     end
@@ -92,13 +90,13 @@ class Link < ActiveRecord::Base
   end
 
   def worthy
-    unless description.present? || lede.present? || domain.present? || image_url.present?
+    unless domain.present? || description.present? || lede.present? || image_url.present?
       errors.add(:base, 'Link is not worthy.')
     end
   end
 
   def meta_inspector_page
-    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 4, allow_redirections: :all)
+    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 3, allow_redirections: :all)
   end
 
   def pismo_page
