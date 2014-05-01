@@ -50,7 +50,7 @@ class Reaper
       url = link['link']
       title = link['name']
       posted_at = DateTime.parse(link['created_time'])
-      CreateLinksWorker.perform_async(url, title, posted_at, Provider.facebook.id, @user.id)
+      CreateLinksWorker.perform_async(url, title, "#{posted_at}", Provider.facebook.id, @user.id)
     rescue => e
       puts "#{e.class}: #{e.message}".red
     end
