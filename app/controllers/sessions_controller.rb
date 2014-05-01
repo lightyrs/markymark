@@ -30,6 +30,7 @@ class SessionsController < ApplicationController
         # associate the identity
         @identity.user = current_user
         @identity.save
+        HarvestLinksWorker.perform_async(current_user.id, @identity.provider_id)
         redirect_to root_url, notice: "Successfully linked that account!"
       end
     else

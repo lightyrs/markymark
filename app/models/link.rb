@@ -41,7 +41,7 @@ class Link < ActiveRecord::Base
       self.lede = pismo_page.lede
       self.description = meta_inspector_page.meta['description']
       self.image_url = meta_inspector_page.image
-      self.content = pismo_page.body
+      # self.content = pismo_page.body
       # self.html_content = pismo_page.html_body
       # self.content_links = meta_inspector_page.links
       assign_tags
@@ -51,7 +51,7 @@ class Link < ActiveRecord::Base
       if e.class == SocketError
         fetch_metadata_fallback
       else
-        self
+        false
       end
     end
   end
@@ -63,18 +63,17 @@ class Link < ActiveRecord::Base
       self.lede = pismo_page.lede
       self.description = pismo_page.description
       self.content = pismo_page.body
-      assign_tags(true)
+      assign_tags
       self
     rescue => e
       puts "Link#fetch_metadata_fallback: #{e.class}: #{e.message}".red
-      self
+      false
     end
   end
 
-  def assign_tags(fallback = false)
+  def assign_tags
     begin
-      tags = fallback ? "#{pismo_keywords}" : "#{pismo_keywords}, #{meta_inspector_keywords}"
-      self.tag_list.add(tags, parse: true) if tags.present?
+      self.tag_list.add("#{pismo_keywords}", parse: true) if tags.present?
     rescue => e
       puts "Link#assign_tags: #{e.class}: #{e.message}".red
     end
@@ -89,7 +88,7 @@ class Link < ActiveRecord::Base
   end
 
   def pismo_keywords
-    pismo_page.keywords.flatten.select {|k| k.is_a?(String) && k.length < 100 }.join(', ')
+    pismo_page.keywords.sort_by(&:last).reverse.first(5).flatten.select {|k| k.is_a?(String) && k.length < 100 }.join(', ')
   end
 
   def worthy
