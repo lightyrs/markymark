@@ -9,7 +9,7 @@ class Link < ActiveRecord::Base
   validates :title, presence: true, uniqueness: { scope: [:description, :domain] }, if: Proc.new { |link| link.scraped? }
   validate :worthy, if: Proc.new { |link| link.scraped? }
 
-  after_commit :save_metadata, on: :create
+  after_commit :queue_metadata_worker, on: :create
 
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
@@ -19,13 +19,24 @@ class Link < ActiveRecord::Base
 
   self.per_page = 50
 
-  private
+  class << self
+
+    def refresh(link_id)
+      Link.find(link_id).save_metadata
+    end
+  end
 
   def save_metadata
     if fetch_metadata
       self.scraped = true
       save
     end
+  end
+
+  private
+
+  def queue_metadata_worker
+    UpdateLinksWorker.perform_async(self.id)
   end
 
   def fetch_metadata
