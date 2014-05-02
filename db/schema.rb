@@ -66,9 +66,9 @@ ActiveRecord::Schema.define(version: 20140502073804) do
     t.boolean  "scraped",                               default: false
   end
 
-  add_index "links", ["domain", "title"], name: "index_links_on_domain_and_title", unique: true, length: {"domain"=>nil, "title"=>100}, using: :btree
+  add_index "links", ["domain", "title"], name: "index_links_on_domain_and_title", unique: true, length: {"domain"=>nil, "title"=>50}, using: :btree
   add_index "links", ["provider_id"], name: "links_provider_id_fk", using: :btree
-  add_index "links", ["user_id", "url"], name: "index_links_on_user_id_and_url", unique: true, length: {"user_id"=>nil, "url"=>100}, using: :btree
+  add_index "links", ["user_id", "url"], name: "index_links_on_user_id_and_url", unique: true, length: {"user_id"=>nil, "url"=>50}, using: :btree
 
   create_table "providers", force: true do |t|
     t.string   "name"

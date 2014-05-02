@@ -1,7 +1,5 @@
 class Reaper
 
-  include ActiveModel::Model
-
   def initialize(options = {})
     raise ArgumentError unless @user = User.find(options[:user_id])
     @provider = Provider.find_by_id(options[:provider_id])
@@ -50,7 +48,7 @@ class Reaper
       url = link['link']
       title = link['name']
       posted_at = DateTime.parse(link['created_time'])
-      CreateLinksWorker.perform_async(url, title, "#{posted_at}", Provider.facebook.id, @user.id)
+      Link.delay_for(1.minute, retry: 2, queue: :normal_priority).process(url, title, "#{posted_at}", Provider.facebook.id, @user.id)
     rescue => e
       puts "#{e.class}: #{e.message}".red
     end
@@ -70,7 +68,7 @@ class Reaper
           begin
             url = "#{link}"
             posted_at = tweet.created_at
-            CreateLinksWorker.perform_async(url, nil, posted_at, Provider.twitter.id, @user.id)
+            Link.delay_for(1.minute, retry: 2, queue: :normal_priority).process(url, nil, posted_at, Provider.twitter.id, @user.id)
           rescue => e
             puts "#{e.class}: #{e.message}".red
           end
@@ -93,7 +91,7 @@ class Reaper
         url = link_hash['resolved_url'] || link_hash['given_url']
         title = link_hash['given_title'] || link_hash['resolved_title']
         posted_at = DateTime.strptime(link_hash['time_added'], '%s')
-        CreateLinksWorker.perform_async(url, title, posted_at, Provider.pocket.id, @user.id)
+        Link.delay_for(1.minute, retry: 2, queue: :normal_priority).process(url, title, posted_at, Provider.pocket.id, @user.id)
       rescue => e
         puts "Reaper#create_links_from_pocket: #{e.class}: #{e.message}".red
       end
