@@ -102,4 +102,3 @@ gem 'tf-idf-similarity'
 gem 'kronic'
 
 gem 'sidekiq'
-gem 'sidekiq-throttler'
