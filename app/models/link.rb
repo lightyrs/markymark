@@ -54,15 +54,15 @@ class Link < ActiveRecord::Base
   def fetch_metadata
     begin
       self.url = (meta_inspector_page.meta['og:url'] || meta_inspector_page.url) rescue self.url
-      self.domain = meta_inspector_page.host.gsub('www.', '')
+      self.domain = meta_inspector_page.host.gsub('www.', '') rescue Addressable::URI.parse(self.url).host.gsub('www.', '')
       self.title = (pismo_page.title || meta_inspector_page.title) rescue self.title
-      self.lede = pismo_page.lede
-      self.description = meta_inspector_page.description
-      self.image_url = meta_inspector_page.image
-      self.content = pismo_page.body
-      self.html_content = pismo_page.html_body
-      self.content_links = meta_inspector_page.links
-      self.tags = pismo_keywords
+      self.lede = pismo_page.lede rescue nil
+      self.description = meta_inspector_page.description rescue pismo_page.description
+      self.image_url = meta_inspector_page.image rescue nil
+      self.content = pismo_page.body rescue nil
+      self.html_content = pismo_page.html_body rescue nil
+      self.content_links = meta_inspector_page.links rescue []
+      self.tags = pismo_keywords rescue []
       true
     rescue => e
       puts "Link#fetch_metadata: #{e.class}: #{e.message}".red_on_white
