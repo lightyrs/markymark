@@ -8,9 +8,9 @@
 # even though they can be added afterwards (of normal jobs) to the queue
 ---
 :verbose: false
-:pidfile: ./tmp/pids/sidekiq.pid
-:concurrency:  25
+:pidfile: tmp/pids/sidekiq.pid
+:concurrency: 25
 :queues:
-  - [top_priority, 9]
+  - [high_priority, 9]
   - [normal_priority, 5]
   - [low_priority, 2]
