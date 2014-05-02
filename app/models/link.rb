@@ -52,11 +52,10 @@ class Link < ActiveRecord::Base
   end
 
   def fetch_metadata
-    meta_inspector_page = MetaInspector.new(self.url, timeout: 3, allow_redirections: :all, warn_level: :warn)
-    pismo_page = Pismo::Document.new(self.url)
-    puts pismo_page.keywords.inspect.green
-    puts pismo_page.keywords.first(5).map(&:first).inspect.yellow
     begin
+      meta_inspector_page = MetaInspector.new(self.url, timeout: 3, allow_redirections: :all, warn_level: :warn)
+      pismo_page = Pismo::Document.new(self.url)
+      
       self.url = (meta_inspector_page.meta['og:url'] || meta_inspector_page.url) rescue self.url
       self.domain = meta_inspector_page.host.gsub('www.', '') rescue Addressable::URI.parse(self.url).host.gsub('www.', '')
       self.title = (pismo_page.title || meta_inspector_page.title) rescue self.title
