@@ -52,6 +52,10 @@ class Link < ActiveRecord::Base
   end
 
   def fetch_metadata
+    meta_inspector_page = MetaInspector.new(self.url, timeout: 3, allow_redirections: :all, warn_level: :warn)
+    pismo_page = Pismo::Document.new(self.url)
+    puts pismo_page.keywords.inspect.green
+    puts pismo_page.keywords.first(5).map(&:first).inspect.yellow
     begin
       self.url = (meta_inspector_page.meta['og:url'] || meta_inspector_page.url) rescue self.url
       self.domain = meta_inspector_page.host.gsub('www.', '') rescue Addressable::URI.parse(self.url).host.gsub('www.', '')
@@ -62,7 +66,7 @@ class Link < ActiveRecord::Base
       self.content = pismo_page.body rescue nil
       self.html_content = pismo_page.html_body rescue nil
       self.content_links = meta_inspector_page.links rescue []
-      self.tags = pismo_keywords rescue []
+      self.tags = pismo_page.keywords.first(5).map(&:first) rescue []
       true
     rescue => e
       puts "Link#fetch_metadata: #{e.class}: #{e.message}".red_on_white
@@ -70,21 +74,9 @@ class Link < ActiveRecord::Base
     end
   end
 
-  def pismo_keywords
-    pismo_page.keywords.sort_by(&:last).reverse.first(5).flatten.select {|k| k.is_a?(String) && k.length < 100 }
-  end
-
   def worthy
     unless domain.present? || description.present? || lede.present? || image_url.present?
       errors.add(:base, 'Link is not worthy.')
     end
-  end
-
-  def meta_inspector_page
-    @meta_inspector_page ||= MetaInspector.new(self.url, timeout: 3, allow_redirections: :all, warn_level: :warn)
-  end
-
-  def pismo_page
-    @pismo_page ||= Pismo::Document.new(self.url)
   end
 end

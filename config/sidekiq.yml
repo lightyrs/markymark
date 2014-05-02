@@ -9,7 +9,7 @@
 ---
 :verbose: false
 :pidfile: tmp/pids/sidekiq.pid
-:concurrency: 10
+:concurrency: 6
 :queues:
   - [high_priority, 9]
   - [normal_priority, 5]
