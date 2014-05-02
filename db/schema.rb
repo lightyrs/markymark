@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140428233933) do
+ActiveRecord::Schema.define(version: 20140502054422) do
 
   create_table "classifications", force: true do |t|
     t.string   "name"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20140428233933) do
     t.text     "description"
     t.text     "url"
     t.text     "image_url"
-    t.text     "content",       limit: 2147483647
+    t.text     "content",            limit: 2147483647
     t.string   "domain"
     t.datetime "posted_at"
     t.integer  "user_id"
@@ -51,11 +51,13 @@ ActiveRecord::Schema.define(version: 20140428233933) do
     t.datetime "updated_at"
     t.integer  "provider_id"
     t.text     "lede"
-    t.text     "content_links", limit: 2147483647
-    t.text     "html_content",  limit: 2147483647
+    t.text     "content_links",      limit: 2147483647
+    t.text     "html_content",       limit: 2147483647
+    t.text     "pismo_page",         limit: 2147483647
+    t.text     "metainspector_page", limit: 2147483647
+    t.boolean  "scraped",                               default: false
   end
 
-  add_index "links", ["description", "domain", "title"], name: "index_links_on_description_and_domain_and_title", unique: true, length: {"description"=>100, "domain"=>nil, "title"=>100}, using: :btree
   add_index "links", ["provider_id"], name: "links_provider_id_fk", using: :btree
   add_index "links", ["user_id", "url"], name: "index_links_on_user_id_and_url", unique: true, length: {"user_id"=>nil, "url"=>100}, using: :btree
 

@@ -62,8 +62,8 @@ class SessionsController < ApplicationController
   private
 
   def after_login_flow
-    # if current_user.logged_in_at && current_user.logged_in_at < 1.day.ago
-    #   HarvestLinksWorker.perform_async(@identity.user.id)
+    # if current_user.logged_in_at.nil?
+    #   HarvestLinksWorker.perform_async(@identity.user.id, @identity.provider_id)
     # end
     if @just_logged_in
       current_user.update_attributes(logged_in_at: Time.now)

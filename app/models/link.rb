@@ -5,11 +5,11 @@ class Link < ActiveRecord::Base
   belongs_to :user
   belongs_to :provider
 
-  validates :title, presence: true, uniqueness: { scope: [:description, :domain] }
   validates :url, presence: true, uniqueness: { scope: :user_id }
-  validate :worthy
+  validates :title, presence: true, uniqueness: { scope: [:description, :domain] }, if: Proc.new { |link| link.scraped? }
+  validate :worthy, if: Proc.new { |link| link.scraped? }
 
-  before_validation :fetch_metadata, on: :create
+  after_commit :save_metadata, on: :create
 
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
@@ -19,19 +19,14 @@ class Link < ActiveRecord::Base
 
   self.per_page = 50
 
-  class << self
+  private
 
-    def refresh_all
-      Link.find_each(&:refresh)
+  def save_metadata
+    if fetch_metadata
+      self.scraped = true
+      save
     end
   end
-
-  def refresh
-    fetch_metadata
-    save!
-  end
-
-  private
 
   def fetch_metadata
     begin
@@ -42,8 +37,8 @@ class Link < ActiveRecord::Base
       self.description = meta_inspector_page.meta['description']
       self.image_url = meta_inspector_page.image
       self.content = pismo_page.body
-      # self.html_content = pismo_page.html_body
-      # self.content_links = meta_inspector_page.links
+      self.html_content = pismo_page.html_body
+      self.content_links = meta_inspector_page.links
       assign_tags
     rescue => e
       puts "Link#fetch_metadata: #{e.class}: #{e.message}".red
