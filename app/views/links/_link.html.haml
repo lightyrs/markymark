@@ -28,7 +28,7 @@
 
     - if link.tags.any?
       .tags
-        - link.tags.first(3).each do |tag|
+        - link.tags.first(5).each do |tag|
           = link_to tag, tagged_links_path("#{tag}"), class: 'tag label label-default'
 
     -# %p.posted-at= link.posted_at.to_formatted_s
