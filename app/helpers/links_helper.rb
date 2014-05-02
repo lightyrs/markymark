@@ -1,7 +1,5 @@
 module LinksHelper
 
-  include ActsAsTaggableOn::TagsHelper
-
   def domain_class_name(link)
     link.domain.gsub('.', '') rescue ''
   end

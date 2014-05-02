@@ -5,7 +5,7 @@ class StructuralClassification < Classification
     def seed
       content_types.each do |content_type, names|
         names.each do |name|
-          find_or_create_by!(name: name, content_type: content_type)
+          find_or_create_by(name: "#{name}", content_type: "#{content_type}")
         end
       end
     end
