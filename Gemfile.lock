@@ -39,7 +39,6 @@ GEM
       tzinfo (~> 0.3.37)
     addressable (2.3.6)
     arel (4.0.2)
-    atomic (1.1.16)
     awesome_print (1.2.0)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
@@ -77,6 +76,7 @@ GEM
     commonjs (0.2.7)
     connection_pool (2.0.0)
     coolline (0.4.3)
+    curb (0.8.5)
     daemons (1.1.9)
     database_cleaner (1.0.1)
     debug_inspector (0.0.2)
@@ -185,7 +185,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.5.3)
     minitest (4.7.5)
-    multi_json (1.9.2)
+    multi_json (1.9.3)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.15)
@@ -277,7 +277,7 @@ GEM
       activesupport (= 4.0.4)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.2.1)
+    rake (10.3.1)
     randumb (0.5.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -366,8 +366,7 @@ GEM
       eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
     thor (0.19.1)
-    thread_safe (0.3.1)
-      atomic (>= 1.1.7, < 2)
+    thread_safe (0.3.3)
     tilt (1.4.1)
     timers (1.1.0)
     treat (2.0.7)
@@ -421,6 +420,7 @@ DEPENDENCIES
   chronic
   coffee-rails (~> 4.0.0)
   colored
+  curb
   database_cleaner (= 1.0.1)
   decisiontree
   dotenv-rails
