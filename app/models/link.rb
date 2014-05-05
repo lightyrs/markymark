@@ -6,8 +6,8 @@ class Link < ActiveRecord::Base
   belongs_to :provider
 
   validates :url, presence: true, uniqueness: { scope: :user_id }
-  validates :title, presence: true, uniqueness: { scope: :domain }
-  validate :worthy
+  validates :title, presence: true, uniqueness: { scope: :domain }, if: Proc.new { |l| l.scraped? }
+  # validate :worthy, if: Proc.new { |l| l.scraped? }
 
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
@@ -35,6 +35,14 @@ class Link < ActiveRecord::Base
 
     def refresh(link_id)
       Link.find(link_id).save_metadata
+    end
+
+    def scrape(user_id, provider_id)
+      user = User.find(user_id)
+      Link.where(user_id: user_id, provider_id: provider_id, scraped: false).
+        pluck([:id, :url]).in_groups_of(30) do |group|
+          Scraper.make_request(group)
+      end
     end
   end
 
