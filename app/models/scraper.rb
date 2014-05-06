@@ -31,7 +31,7 @@ class Scraper
         request_hash[:request].response.try(:body), 
         url: link.url
       )
-      link.url = request_hash[:request].url rescue nil
+      link.url = (link.url || request_hash[:request].url) rescue nil
       link.domain = Addressable::URI.parse(link.url).host.gsub('www.', '') rescue nil
       link.title = (pismo_page.title || link.title) rescue nil
       link.lede = pismo_page.lede rescue nil
