@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Link < ActiveRecord::Base
 
   serialize :content_links, Array
