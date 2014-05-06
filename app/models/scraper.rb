@@ -11,7 +11,7 @@ class Scraper
         hydra.queue request
       end
       hydra.run
-      Parallel.each(requests, in_threads: 8) do |request_hash|
+      requests.each do |request_hash|
         ActiveRecord::Base.connection_pool.with_connection do
           begin
             analyze_and_save(request_hash)
