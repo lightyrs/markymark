@@ -40,7 +40,7 @@ class Link < ActiveRecord::Base
     def scrape(user_id, provider_id)
       user = User.find(user_id)
       Link.where(user_id: user_id, provider_id: provider_id, scraped: false).
-        pluck([:id, :url]).in_groups_of(30) do |group|
+        order('posted_at DESC').pluck([:id, :url]).in_groups_of(30) do |group|
           Scraper.make_request(group)
       end
     end
