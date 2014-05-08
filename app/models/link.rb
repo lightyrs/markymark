@@ -45,8 +45,6 @@ class Link < ActiveRecord::Base
           begin
             Scraper.make_request(group)
           rescue
-            Scraper.make_request(group)
-          rescue
             true
           end
       end
