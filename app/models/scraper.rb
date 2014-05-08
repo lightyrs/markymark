@@ -28,19 +28,19 @@ class Scraper
 
     def analyze_and_save(request_hash)
       link = Link.find(request_hash[:id])
-      # link.html_content = request_hash[:request].response.try(:body)
+      
       pismo_page = Pismo::Document.new(
         request_hash[:request].response.try(:body), 
         url: link.url
       )
       link.url = (link.url || request_hash[:request].url) rescue nil
-      link.domain = Addressable::URI.parse(link.url).host.gsub('www.', '') rescue nil
+      link.domain = URI.parse(link.url).host.gsub('www.', '') rescue nil
       link.title = (pismo_page.title || link.title) rescue nil
       link.lede = pismo_page.lede rescue nil
       link.description = pismo_page.description rescue nil
       link.content = pismo_page.body rescue nil
       link.html_content = (pismo_page.html_body || request_hash[:request].response.try(:body)) rescue nil
-      # link.tags = pismo_page.keywords.first(5).map(&:first) rescue []
+      link.tags = pismo_page.keywords.first(5).map(&:first) rescue []
       link.scraped = true
       link.save!
     end

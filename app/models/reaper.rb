@@ -54,7 +54,6 @@ class Reaper
         user_id: @user.id,
         provider_id: Provider.facebook.id
       )
-      # Link.delay_for(1.minute, retry: 2, queue: :normal_priority).process(url, title, "#{posted_at}", Provider.facebook.id, @user.id)
     rescue => e
       puts "#{e.class}: #{e.message}".red
     end
@@ -81,7 +80,6 @@ class Reaper
               user_id: @user.id,
               provider_id: Provider.twitter.id
             )
-            # Link.delay_for(1.minute, retry: 2, queue: :normal_priority).process(url, nil, posted_at, Provider.twitter.id, @user.id)
           rescue => e
             puts "#{e.class}: #{e.message}".red
           end
@@ -112,7 +110,6 @@ class Reaper
           user_id: @user.id,
           provider_id: Provider.pocket.id
         )
-        # Link.delay_for(1.minute, retry: 2, queue: :normal_priority).process(url, title, posted_at, Provider.pocket.id, @user.id)
       rescue => e
         puts "Reaper#create_links_from_pocket: #{e.class}: #{e.message}".red
       end
