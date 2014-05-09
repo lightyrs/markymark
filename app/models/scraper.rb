@@ -9,8 +9,10 @@ class Scraper
       hydra = Typhoeus::Hydra.hydra
       link_group.each do |id, url|
         request = Typhoeus::Request.new("#{url}?thread_id=#{Thread.current.object_id}",
-          timeout: 3000,
+          timeout: 30,
           followlocation: true,
+          connecttimeout: 7, 
+          maxredirs: 2,
           ssl_verifypeer: false
         )
         requests.push({ id: id, url: url, request: request })
@@ -39,15 +41,22 @@ class Scraper
         request_hash[:request].response.try(:body), 
         url: link.url
       )
-      link.url = (link.url || request_hash[:request].url) rescue nil
+      link.url = (request_hash[:request].url || link.url) rescue nil
       link.domain = URI.parse(link.url).host.gsub('www.', '') rescue nil
       link.title = (pismo_page.title || link.title) rescue nil
       link.lede = pismo_page.lede rescue nil
       link.description = (pismo_page.description || pismo_page.lede) rescue nil
       link.content = pismo_page.body rescue nil
-      link.html_content = (pismo_page.html_body || request_hash[:request].response.try(:body)) rescue nil
-      link.tags = pismo_page.keywords.first(5).map(&:first) rescue []
+      link.html_content = pismo_page.html_body rescue nil
+
+      ActiveRecord::Base.connection_pool.with_connection do
+        link.tags = pismo_page.keywords.first(5).map(&:first) rescue []
+      end
+
       link.scraped = true
+      link.save!
+    rescue ActiveRecord::StatementInvalid
+      sleep 1
       link.save!
     end
   end

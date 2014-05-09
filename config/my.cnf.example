@@ -1,0 +1,17 @@
+[mysqld]
+collation_server                     = utf8_general_ci
+character_set_server                 = utf8
+innodb_locks_unsafe_for_binlog       = 1
+innodb_io_capacity                   = 2000
+innodb_thread_concurrency            = 0
+innodb_read_io_threads               = 64
+innodb_write_io_threads              = 64
+query_cache_type                     = 1
+query_cache_size                     = 16M
+query_cache_limit                    = 64M
+tmp_table_size                       = 32M
+max_heap_table_size                  = 32M
+thread_cache_size                    = 75
+
+[client]
+default-character-set                = utf8

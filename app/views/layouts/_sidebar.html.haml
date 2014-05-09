@@ -1,3 +1,12 @@
 #sidebar.col-xs-2.col-xs-height.col-top.layout-col
-  .menu= yield :sidebar_menu
-  .content.rendered.clearfix= yield :sidebar
+  .menu
+    = yield :sidebar_menu
+  .content.rendered.clearfix
+    %ul.nav.nav-stacked
+      - if current_user
+        %li= link_to 'Home', root_path
+        %li= link_to 'Links', links_path
+        %li= link_to 'Trainer', classifications_path
+        %li.divider
+        %li= link_to 'Logout', logout_path
+    = yield :sidebar
