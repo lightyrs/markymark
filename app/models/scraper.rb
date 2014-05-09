@@ -8,7 +8,11 @@ class Scraper
       requests = []
       hydra = Typhoeus::Hydra.hydra
       link_group.each do |id, url|
-        request = Typhoeus::Request.new(url)
+        request = Typhoeus::Request.new("#{url}?thread_id=#{Thread.current.object_id}",
+          timeout: 3000,
+          followlocation: true,
+          ssl_verifypeer: false
+        )
         requests.push({ id: id, url: url, request: request })
         hydra.queue request
       end
@@ -24,6 +28,8 @@ class Scraper
           end
         end
       end
+    rescue => e
+      puts "#{e.class}: #{e.message}".red
     end
 
     def analyze_and_save(request_hash)
@@ -37,7 +43,7 @@ class Scraper
       link.domain = URI.parse(link.url).host.gsub('www.', '') rescue nil
       link.title = (pismo_page.title || link.title) rescue nil
       link.lede = pismo_page.lede rescue nil
-      link.description = pismo_page.description rescue nil
+      link.description = (pismo_page.description || pismo_page.lede) rescue nil
       link.content = pismo_page.body rescue nil
       link.html_content = (pismo_page.html_body || request_hash[:request].response.try(:body)) rescue nil
       link.tags = pismo_page.keywords.first(5).map(&:first) rescue []
