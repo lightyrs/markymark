@@ -2,7 +2,7 @@ class ScrapeLinkGroupWorker
 
   include Sidekiq::Worker
 
-  sidekiq_options queue: :normal_priority, retry: 2
+  sidekiq_options queue: :normal_priority, retry: 3
 
   def perform(link_group)
     Timeout::timeout(500) do 
