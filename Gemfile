@@ -37,6 +37,8 @@ gem 'rocket_tag', git: 'git://github.com/legendetm/rocket_tag.git'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'immigrant'
+gem 'guard-redis'
+gem 'guard-sidekiq'
 
 gem 'therubyracer', platforms: :ruby
 gem 'less-rails-bootstrap'
