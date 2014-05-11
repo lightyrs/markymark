@@ -9,10 +9,10 @@ class Scraper
       hydra = Typhoeus::Hydra.hydra
       link_group.each do |id, url|
         request = Typhoeus::Request.new("#{url}?thread_id=#{Thread.current.object_id}",
-          timeout: 30,
+          timeout: 60,
           followlocation: true,
-          connecttimeout: 7, 
-          maxredirs: 2,
+          connecttimeout: 15, 
+          maxredirs: 3,
           ssl_verifypeer: false
         )
         requests.push({ id: id, url: url, request: request })
@@ -24,10 +24,10 @@ class Scraper
           begin
             analyze_and_save(request_hash)
           rescue ActiveRecord::RecordInvalid => invalid
-            invalid.record.delete
+            puts invalid.record.inspect.green
           rescue => e
             puts "#{e.class} => #{e.message.first(500)}".red_on_white
-            false
+            raise StandardError
           end
         end
       end
@@ -48,12 +48,10 @@ class Scraper
       link.content = pismo_page.body rescue nil
       link.html_content = pismo_page.html_body rescue nil
 
-      ActiveRecord::Base.connection_pool.with_connection do
-        link.tags = pismo_page.keywords.first(5).map(&:first) rescue []
-      end
+      link.tags = pismo_page.keywords.first(5).map(&:first) rescue []
 
       link.scraped = true
-      link.save!
+      link.save
     rescue ActiveRecord::StatementInvalid
       sleep 3
       link.save!

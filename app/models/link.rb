@@ -6,7 +6,7 @@ class Link < ActiveRecord::Base
   belongs_to :provider
 
   validates :url, presence: true, uniqueness: { scope: :user_id }
-  validates :title, presence: true, uniqueness: { scope: :domain }, if: Proc.new { |l| l.scraped? }
+  validates :title, presence: true, if: Proc.new { |l| l.scraped? }
   # validate :worthy, if: Proc.new { |l| l.scraped? }
 
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }

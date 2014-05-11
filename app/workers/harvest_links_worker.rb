@@ -2,7 +2,7 @@ class HarvestLinksWorker
 
   include Sidekiq::Worker
 
-  sidekiq_options queue: :high_priority, retry: 3
+  sidekiq_options queue: :normal_priority, retry: 10
 
   def perform(user_id, provider_id = nil)
     ActiveRecord::Base.connection_pool.with_connection do
@@ -10,6 +10,6 @@ class HarvestLinksWorker
       reaper.harvest_links
     end
   rescue
-    false
+    raise StandardError
   end
 end

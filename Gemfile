@@ -3,7 +3,6 @@ source 'https://rails-assets.org'
 ruby '2.1.1'
 
 gem 'rails', '4.0.4'
-gem 'kgio'
 gem 'mysql2'
 gem 'sass-rails', '~> 4.0.2'
 gem 'uglifier', '>= 1.3.0'
@@ -27,7 +26,6 @@ gem 'sinatra', '>= 1.3.0', require: nil
 gem 'treat'
 gem 'omnicat-bayes'
 gem 'typhoeus'
-gem 'curb'
 gem 'pismo'
 gem 'parallel'
 gem 'metainspector'
@@ -78,6 +76,8 @@ group :test do
   gem 'database_cleaner', '1.0.1'
   gem 'email_spec'
 end
+
+gem 'ffi', '<1.9.3'
 
 # treat
 gem 'graphr'
