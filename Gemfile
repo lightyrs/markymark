@@ -71,7 +71,6 @@ group :development, :test do
   gem 'pry-nav'
   gem 'pry-toys'
   gem 'pry-theme'
-  gem 'binding_of_caller'
 end
 
 group :test do

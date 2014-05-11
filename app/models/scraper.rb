@@ -27,11 +27,10 @@ class Scraper
             invalid.record.delete
           rescue => e
             puts "#{e.class} => #{e.message.first(500)}".red_on_white
+            false
           end
         end
       end
-    rescue => e
-      puts "#{e.class}: #{e.message}".red
     end
 
     def analyze_and_save(request_hash)
@@ -56,7 +55,7 @@ class Scraper
       link.scraped = true
       link.save!
     rescue ActiveRecord::StatementInvalid
-      sleep 1
+      sleep 3
       link.save!
     end
   end
