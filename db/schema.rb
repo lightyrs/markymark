@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140502073804) do
+ActiveRecord::Schema.define(version: 20140512010948) do
 
   create_table "alias_tags", id: false, force: true do |t|
     t.integer "tag_id"
@@ -47,11 +47,11 @@ ActiveRecord::Schema.define(version: 20140502073804) do
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "links", force: true do |t|
-    t.text     "title",              limit: 2147483647
+    t.text     "title",         limit: 2147483647
     t.text     "description"
     t.text     "url"
     t.text     "image_url"
-    t.text     "content",            limit: 2147483647
+    t.text     "content",       limit: 2147483647
     t.string   "domain"
     t.datetime "posted_at"
     t.integer  "user_id"
@@ -59,11 +59,10 @@ ActiveRecord::Schema.define(version: 20140502073804) do
     t.datetime "updated_at"
     t.integer  "provider_id"
     t.text     "lede"
-    t.text     "content_links",      limit: 2147483647
-    t.text     "html_content",       limit: 2147483647
-    t.text     "pismo_page",         limit: 2147483647
-    t.text     "metainspector_page", limit: 2147483647
-    t.boolean  "scraped",                               default: false
+    t.text     "content_links", limit: 2147483647
+    t.text     "html_content",  limit: 2147483647
+    t.boolean  "scraped",                          default: false
+    t.boolean  "completed",                        default: false
   end
 
   add_index "links", ["provider_id"], name: "links_provider_id_fk", using: :btree
