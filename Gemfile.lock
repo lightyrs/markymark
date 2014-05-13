@@ -1,4 +1,20 @@
 GIT
+  remote: git://github.com/andyatkinson/pismo.git
+  revision: 39da3f68380e8260a787562e4f3e21c752a2791d
+  branch: open_uri_redirections
+  specs:
+    pismo (0.8.0)
+      awesome_print
+      chronic
+      fast-stemmer
+      fastimage (>= 1)
+      htmlentities
+      nokogiri
+      open_uri_redirections
+      phrasie (>= 0.1.4)
+      sanitize
+
+GIT
   remote: git://github.com/legendetm/rocket_tag.git
   revision: 43c93d0abaf2f9db53303a7374d3dadf82d69e13
   specs:
@@ -214,8 +230,8 @@ GEM
     naught (1.0.0)
     nickel (0.1.5)
     nio4r (1.0.0)
-    nokogiri (1.6.1)
-      mini_portile (~> 0.5.0)
+    nokogiri (1.6.2)
+      mini_portile (~> 0.5.2)
     oauth (0.4.7)
     oauth2 (0.9.3)
       faraday (>= 0.8, < 0.10)
@@ -250,12 +266,7 @@ GEM
       bind-it (~> 0.2.5)
     open_uri_redirections (0.1.4)
     parallel (1.0.0)
-    pismo (0.7.4)
-      awesome_print
-      chronic
-      fast-stemmer
-      nokogiri
-      sanitize
+    phrasie (0.1.5)
     polyamorous (0.6.4)
       activerecord (>= 3.0)
     polyglot (0.3.4)
@@ -491,7 +502,7 @@ DEPENDENCIES
   omnicat-bayes
   open-nlp
   parallel
-  pismo
+  pismo!
   pry
   pry-coolline
   pry-nav

@@ -26,7 +26,7 @@ gem 'sinatra', '>= 1.3.0', require: nil
 gem 'treat'
 gem 'omnicat-bayes'
 gem 'typhoeus'
-gem 'pismo'
+gem 'pismo', github: 'andyatkinson/pismo', branch: 'open_uri_redirections'
 gem 'parallel'
 gem 'metainspector'
 gem 'htmlentities'
