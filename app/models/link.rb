@@ -52,6 +52,10 @@ class Link < ActiveRecord::Base
     end
   end
 
+  def is_image?
+    url.match(/\.(png|jpg|gif)$/).present?
+  end
+  
   private
 
   def queue_metadata_worker

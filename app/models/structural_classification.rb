@@ -21,7 +21,7 @@ class StructuralClassification < Classification
     end
 
     def text
-      ['News', 'Interview', 'Speech', 'List', 'Review', 'Tutorial', 'Comparison', 'Case Study', 'Rant', 'Story', 'Prediction', 'Press Release', 'Analysis', 'Live Blog', 'Q&A', 'Contest', 'Transcription', 'Summary', 'Advice', 'Guide', 'Round Up', 'Op-Ed', 'Comment', 'Historical', 'Status', 'Code', 'Technical', 'E-book', 'Advertisement']
+      ['News', 'Long-form Journalism', 'Interview', 'Speech', 'List', 'Review', 'Tutorial', 'Comparison', 'Case Study', 'Rant', 'Story', 'Prediction', 'Press Release', 'Analysis', 'Live Blog', 'Q&A', 'Contest', 'Transcription', 'Summary', 'Advice', 'Guide', 'Round Up', 'Op-Ed', 'Comment', 'Historical', 'Status', 'Code', 'Technical', 'E-book', 'Advertisement']
     end
 
     def image

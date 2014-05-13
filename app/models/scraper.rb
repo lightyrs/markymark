@@ -41,7 +41,7 @@ class Scraper
     def analyze_and_save(request_hash)
       return false unless response = request_hash[:request].response.try(:body)
       return false unless link = Link.find_by(id: request_hash[:id])
-      return false if link.url.match(/\.(png|jpg|gif)$/).present?
+      return false if link.is_image?
       
       pismo_page = Pismo::Document.new(response, url: link.url)
 
@@ -56,7 +56,9 @@ class Scraper
       link.description = (pismo_page.description || pismo_page.lede) rescue ''
       link.content = pismo_page.body rescue ''
       link.html_content = (pismo_page.html_body || response) rescue response
-      link.tags = pismo_page.keywords.first(5).map(&:first).compact.select { |k| k.length > 1 } rescue []
+      link.tags = pismo_page.keywords.first(5).
+        map { |k| k.first.squish! }.compact.
+        select { |k| k.length > 1 } rescue []
       link.scraped = true
       link.save!
     rescue ActiveRecord::StatementInvalid
