@@ -12,6 +12,7 @@ class Link < ActiveRecord::Base
   scope :facebook, -> { where(provider_id: Provider.facebook.id) }
   scope :twitter, -> { where(provider_id: Provider.twitter.id) }
   scope :pocket, -> { where(provider_id: Provider.pocket.id) }
+  scope :scraped, -> { where(scraped: true) }
 
   attr_taggable :tags
 
@@ -64,7 +65,7 @@ class Link < ActiveRecord::Base
 
   def fetch_metadata
     begin
-      meta_inspector_page = MetaInspector.new(self.url, timeout: 3, allow_redirections: :all, warn_level: :warn)
+      meta_inspector_page = MetaInspector.new(self.url, timeout: 30, allow_redirections: :all, warn_level: :warn)
       pismo_page = Pismo::Document.new(self.url)
       
       self.url = (meta_inspector_page.meta['og:url'] || meta_inspector_page.url) rescue self.url

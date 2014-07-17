@@ -11,5 +11,6 @@
 :pidfile: tmp/pids/sidekiq.pid
 :concurrency: 36
 :queues:
+  - [high_priority, 8]
   - [normal_priority, 5]
   - [low_priority, 2]

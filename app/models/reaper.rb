@@ -29,6 +29,7 @@ class Reaper
       @graph ||= GraphClient.new(@user.token(provider_id: Provider.facebook.id))
       links ||= @graph.links
       links.each_with_index do |link, index|
+        puts link.inspect.red
         if index == (links.count - 1)
           next_links = links.next_page
           harvest_links_from_facebook(next_links) if next_links.present?

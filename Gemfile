@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 source 'https://rails-assets.org'
-ruby '2.1.1'
+ruby '2.1.2'
 
 gem 'rails', '4.0.4'
 gem 'mysql2'
@@ -22,6 +22,7 @@ gem 'thin'
 gem 'twitter'
 gem 'koala'
 gem 'randumb'
+gem 'nokogiri', '1.6.1'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'treat'
 gem 'omnicat-bayes'
