@@ -25,7 +25,7 @@ class StructuralClassification < Classification
     end
 
     def image
-      ['Infographic', 'Slideshow', 'News', 'Advertisement']
+      ['Infographic', 'Slideshow', 'News', 'Advertisement', 'Animated Gif', 'Comic']
     end
 
     def video
