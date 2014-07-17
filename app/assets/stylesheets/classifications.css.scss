@@ -1,9 +1,30 @@
-form {
+#main {
 
-  &.classification {
+  form {
 
-    .dl-horizontal {
-      margin-bottom: 60px;
+    &.classification {
+
+      .dl-horizontal {
+        margin-bottom: 60px;
+      }
+    
+      .link {
+        padding: 10px 50px 40px 40px;
+
+        h3.title {
+          margin-bottom: 30px;
+          -ms-word-break: break-all;
+          word-break: break-all;
+          word-break: break-word;
+          -webkit-hyphens: auto;
+             -moz-hyphens: auto;
+                  hyphens: auto; 
+        }
+
+        .attribute-block {
+          margin-bottom: 20px;
+        }
+      }
     }
   }
 }

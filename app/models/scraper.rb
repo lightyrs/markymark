@@ -22,14 +22,12 @@ class Scraper
       hydra.run
       begin
         requests.each do |request_hash|
-          ActiveRecord::Base.connection_pool.with_connection do
-            begin
-              analyze_and_save(request_hash)
-            rescue ActiveRecord::RecordInvalid => invalid
-              puts invalid.record.errors.full_messages.inspect.white_on_red
-            rescue => e
-              puts "#{e.class} => #{e.message.first(500)}".red_on_white
-            end
+          begin
+            analyze_and_save(request_hash)
+          rescue ActiveRecord::RecordInvalid => invalid
+            puts invalid.record.errors.full_messages.inspect.white_on_red
+          rescue => e
+            puts "#{e.class} => #{e.message.first(500)}".red_on_white
           end
         end
       rescue => e
@@ -40,13 +38,13 @@ class Scraper
 
     def analyze_and_save(request_hash)
       return false unless response = request_hash[:request].response.try(:body)
-      return false unless link = Link.find_by(id: request_hash[:id])
+      return false unless link = Link.find(request_hash[:id])
       return false if link.is_image?
       
-      pismo_page = Pismo::Document.new(response, url: link.url, reader: :cluster)
+      pismo_page = Pismo::Document.new(response, url: link.url) rescue nil
 
       unless pismo_page && pismo_page.title.present?
-        pismo_page = Pismo::Document.new(link.url, reader: :cluster)
+        pismo_page = Pismo::Document.new(link.url)
       end
 
       link.url = (request_hash[:request].response.try(:effective_url) || link.url) rescue link.url
@@ -62,7 +60,7 @@ class Scraper
       link.scraped = true
       link.save!
     rescue ActiveRecord::StatementInvalid
-      sleep 3
+      sleep 2
       link.save!
     end
   end

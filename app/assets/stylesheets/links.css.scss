@@ -127,5 +127,14 @@
 
   .link {
     padding: 10px 50px 140px 40px;
+
+    .html-content {
+
+      img {
+        max-width: 100% !important;
+        height: auto;
+        display: block;
+      }
+    }
   }
 }

@@ -1,3 +1,6 @@
+require 'classifier'
+require 'madeleine'
+
 class Trainer
 
   include ActiveModel::Model
@@ -6,6 +9,16 @@ class Trainer
 
     def pismo_page(url)
       Pismo::Document.new(url)
+    end
+
+    def classify(options = {})
+      category = options[:category].parameterize.underscore
+      
+      m = SnapshotMadeleine.new("bayes_data") do
+        Classifier::Bayes.new category
+      end
+      m.system.send("train_#{category}", "#{options[:sample]}")
+      m.take_snapshot
     end
   end
 

@@ -26,6 +26,13 @@ class ClassificationsController < ApplicationController
   def update
   end
 
+  def classify
+    @structural_classification = StructuralClassification.find(classification_params[:structural_classification_id])
+    @link = Link.find(classification_params[:link_id])
+    Trainer.classify(category: @structural_classification.name, sample: @link.sample)
+    redirect_to classifications_path
+  end
+
   private
 
   def set_classification
@@ -33,6 +40,6 @@ class ClassificationsController < ApplicationController
   end
 
   def classification_params
-    params.require(:classification).permit(:name, :description, :content_type)
+    params.require(:classification).permit(:id, :structural_classification_id, :name, :description, :content_type, :link_id, :tags)
   end
 end

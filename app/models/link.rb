@@ -34,16 +34,16 @@ class Link < ActiveRecord::Base
       false
     end
 
-    def refresh(link_id)
-      Link.find(link_id).save_metadata
-    end
-
     def scrape(user_id, provider_id)
       Link.where(user_id: user_id, provider_id: provider_id, scraped: false).
         order('posted_at DESC').pluck([:id, :url]).in_groups_of(50) do |group|
           ScrapeLinkGroupWorker.perform_async(group)
       end
     end
+  end
+
+  def refresh
+    save_metadata
   end
 
   def save_metadata
@@ -55,6 +55,20 @@ class Link < ActiveRecord::Base
 
   def is_image?
     url.match(/\.(png|jpg|gif)$/).present?
+  end
+
+  def sample
+    if content && content.length > description.length
+      content
+    elsif description && description.length > 10
+      description
+    elsif title && title.length > 10
+      title
+    elsif tags.any?
+      tags.join(", ")
+    else
+      domain
+    end
   end
   
   private
@@ -71,13 +85,13 @@ class Link < ActiveRecord::Base
       self.url = (meta_inspector_page.meta['og:url'] || meta_inspector_page.url) rescue self.url
       self.domain = meta_inspector_page.host.gsub('www.', '') rescue Addressable::URI.parse(self.url).host.gsub('www.', '')
       self.title = (pismo_page.title || meta_inspector_page.title) rescue self.title
-      self.lede = pismo_page.lede rescue nil
-      self.description = meta_inspector_page.description rescue pismo_page.description
-      self.image_url = meta_inspector_page.image rescue nil
-      self.content = pismo_page.body rescue nil
-      self.html_content = pismo_page.html_body rescue nil
-      self.content_links = meta_inspector_page.links rescue []
-      self.tags = pismo_page.keywords.first(5).map(&:first) rescue []
+      self.lede = pismo_page.lede rescue self.lede
+      self.description = (meta_inspector_page.description || pismo_page.description) rescue self.description
+      self.image_url = meta_inspector_page.image rescue self.image_url
+      self.content = pismo_page.body rescue self.content
+      self.html_content = pismo_page.html_body rescue self.html_content
+      self.content_links = meta_inspector_page.links rescue self.content_links
+      self.tags << pismo_page.keywords.first(5).map(&:first) rescue self.tags
       true
     rescue => e
       puts "Link#fetch_metadata: #{e.class}: #{e.message}".red_on_white
