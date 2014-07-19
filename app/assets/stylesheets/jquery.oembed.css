@@ -15,7 +15,6 @@ div.oembedall-githubrepos {
 div.oembedall-githubrepos .oembedall-body {
   background: -moz-linear-gradient(center top, #FAFAFA, #EFEFEF) repeat scroll 0 0 transparent;
   background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#EFEFEF));
-  ;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-top: 1px solid #EEE;
@@ -71,20 +70,20 @@ div.oembedall-githubrepos ul.oembedall-repo-stats li a {
   line-height: 21px;
   padding: 0 5px 0 23px;
 }
-div.oembedall-githubrepos ul.oembedall-repo-stats li: first-child a {
+div.oembedall-githubrepos ul.oembedall-repo-stats li:first-child a {
   border-left: medium none;
   margin-right: -3px;
 }
-div.oembedall-githubrepos ul.oembedall-repo-stats li a: hover {
+div.oembedall-githubrepos ul.oembedall-repo-stats li a:hover {
   background: none no-repeat scroll 5px -27px #4183C4;
   color: #FFFFFF !important;
   text-decoration: none;
 }
-div.oembedall-githubrepos ul.oembedall-repo-stats li: first-child a: hover {
+div.oembedall-githubrepos ul.oembedall-repo-stats li:first-child a:hover {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
-ul.oembedall-repo-stats li: last-child a: hover {
+ul.oembedall-repo-stats li:last-child a:hover {
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
 }
@@ -134,10 +133,10 @@ div.oembedall-container {
   margin: 0;
   padding: 0;
 }
-.oembedall-stoqembed a: hover {
+.oembedall-stoqembed a:hover {
   text-decoration: underline;
 }
-.oembedall-stoqembed a: visited {
+.oembedall-stoqembed a:visited {
   color: #4A6B82;
 }
 .oembedall-stoqembed h3 {
@@ -225,7 +224,7 @@ div.oembedall-container {
   float: left;
   line-height: 18px;
 }
-.oembedall-stoqembed .oembedall-tags a: hover {
+.oembedall-stoqembed .oembedall-tags a:hover {
   text-decoration: none;
 }
 .oembedall-stoqembed .oembedall-post-tag {
@@ -240,7 +239,7 @@ div.oembedall-container {
   text-decoration: none;
   white-space: nowrap;
 }
-.oembedall-stoqembed .oembedall-post-tag: hover {
+.oembedall-stoqembed .oembedall-post-tag:hover {
   background-color: #3E6D8E;
   border-bottom: 1px solid #37607D;
   border-right: 1px solid #37607D;
@@ -339,7 +338,7 @@ div.oembedall-lanyard .split {
   float: left;
   display: inline;
 }
-div.oembedall-lanyard .prominent-place .flag: link, div.oembedall-lanyard .prominent-place .flag: visited, div.oembedall-lanyard .prominent-place .flag: hover, div.oembedall-lanyard .prominent-place .flag: focus, div.oembedall-lanyard .prominent-place .flag: active {
+div.oembedall-lanyard .prominent-place .flag:link, div.oembedall-lanyard .prominent-place .flag:visited, div.oembedall-lanyard .prominent-place .flag:hover, div.oembedall-lanyard .prominent-place .flag:focus, div.oembedall-lanyard .prominent-place .flag:active {
   float: left;
   display: block;
   width: 48px;

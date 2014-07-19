@@ -20,9 +20,7 @@
 //= require jquery.ui.effect
 //= require jquery_ujs
 //= require turbolinks
-//= require bootstrap
-//= require bootstrap-datepicker
-//= require bootstrap-datetimepicker
+//= require bootstrap-sprockets
 //= require responsive-paginate
 //= require jquery.oembed
 //= require select2

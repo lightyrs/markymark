@@ -21,7 +21,7 @@ class StructuralClassification < Classification
     end
 
     def text
-      ['News', 'Human Interest', 'Gossip', 'Trend Report', 'Long-form Journalism', 'Interview', 'Speech', 'List', 'Review', 'Tutorial', 'Comparison', 'Case Study', 'Rant', 'Story', 'Prediction', 'Press Release', 'Analysis', 'Live Blog', 'Q&A', 'Contest', 'Transcription', 'Summary', 'Advice', 'Guide', 'Round Up', 'Op-Ed', 'Comment', 'Historical', 'Status', 'Code', 'Code Repository', 'Technical', 'Technical Explanation', 'E-book', 'Advertisement', 'Petition']
+      ['News', 'Human Interest', 'Leak', 'Gossip', 'Trend Report', 'Long-form Journalism', 'Interview', 'Speech', 'List', 'Review', 'Tutorial', 'Comparison', 'Case Study', 'Rant', 'Story', 'Prediction', 'Press Release', 'Analysis', 'Live Blog', 'Q&A', 'Contest', 'Transcription', 'Summary', 'Advice', 'Guide', 'Round Up', 'Op-Ed', 'Comment', 'Historical', 'Status', 'Code', 'Code Repository', 'Technical', 'Technical Explanation', 'E-book', 'Advertisement', 'Petition', 'Satire']
     end
 
     def image

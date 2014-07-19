@@ -36,7 +36,7 @@ class LinksController < ApplicationController
 
   def refresh
     @link.refresh
-    redirect_to link_path(@link)
+    redirect_to classifications_path(link_id: @link.id)
   end
 
   private

@@ -3,7 +3,7 @@ class ClassificationsController < ApplicationController
   before_action :set_classification, only: [:show]
 
   def index
-    @sample = Link.order_by_rand.first
+    @sample = params[:link_id] ? Link.find(params[:link_id]) : Link.order_by_rand.first
   end
 
   def new
@@ -29,7 +29,10 @@ class ClassificationsController < ApplicationController
   def classify
     @structural_classification = StructuralClassification.find(classification_params[:structural_classification_id])
     @link = Link.find(classification_params[:link_id])
-    Trainer.classify(category: @structural_classification.name, sample: @link.sample)
+    @link.tags << classification_params[:tags].split(',')
+    @link.save
+    @trainer = Trainer.new(category: @structural_classification.name, sample: @link.sample)
+    @trainer.classify
     redirect_to classifications_path
   end
 
