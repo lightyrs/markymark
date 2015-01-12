@@ -6,18 +6,24 @@ class Scraper
 
     def make_request(link_group)
       requests = []
-      hydra = Typhoeus::Hydra.hydra
-      link_group.each do |id, url|
-        request = Typhoeus::Request.new("#{url}?thread_id=#{Thread.current.object_id}",
-          timeout: 60,
-          followlocation: true,
-          connecttimeout: 30,
-          maxredirs: 6,
-          ssl_verifypeer: false,
-          headers: { Accept: 'text/html' }
-        )
-        requests.push({ id: id, url: url, request: request })
-        hydra.queue request
+      Thread.current[:hydra] ||= Typhoeus::Hydra.hydra
+      hydra = Thread.current[:hydra]
+      link_group = Link.find(link_group.flatten)
+      link_group.each do |link|
+        begin
+          request = Typhoeus::Request.new("#{link.url}?thread_id=#{Thread.current.object_id}",
+            timeout: 45,
+            followlocation: true,
+            connecttimeout: 20,
+            maxredirs: 6,
+            ssl_verifypeer: false,
+            headers: { Accept: 'text/html' }
+          )
+          requests.push({ id: link.id, url: link.url, request: request })
+          hydra.queue request
+        rescue => e
+          puts "#{e.class} => #{e.message.first(200)}".red_on_white
+        end
       end
       hydra.run
       begin
@@ -27,11 +33,11 @@ class Scraper
           rescue ActiveRecord::RecordInvalid => invalid
             puts invalid.record.errors.full_messages.inspect.white_on_red
           rescue => e
-            puts "#{e.class} => #{e.message.first(500)}".red_on_white
+            puts "#{e.class} => #{e.message.first(200)}".red_on_white
           end
         end
       rescue => e
-        puts "#{e.class} => #{e.message.first(500)}".red_on_white
+        puts "#{e.class} => #{e.message.first(200)}".red_on_white
         raise StandardError
       end
     end
@@ -40,7 +46,7 @@ class Scraper
       return false unless response = request_hash[:request].response.try(:body)
       return false unless link = Link.find(request_hash[:id])
       return false if link.is_image?
-      
+
       pismo_page = Pismo::Document.new(response, url: link.url) rescue nil
 
       unless pismo_page && pismo_page.title.present?
@@ -60,7 +66,6 @@ class Scraper
       link.scraped = true
       link.save!
     rescue ActiveRecord::StatementInvalid
-      sleep 2
       link.save!
     end
   end

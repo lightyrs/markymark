@@ -2,15 +2,13 @@ class ScrapeLinkGroupWorker
 
   include Sidekiq::Worker
 
-  sidekiq_options queue: :normal_priority, retry: 5
+  sidekiq_options queue: :normal_priority, unique: true, retry: 3
 
   def perform(link_group)
-    Timeout::timeout(750) do 
-      ActiveRecord::Base.connection_pool.with_connection do
-        Scraper.make_request(link_group)
-      end
+    Timeout::timeout(750) do
+      Scraper.make_request(link_group)
     end
-  rescue
+  rescue StandardError
     raise StandardError
   end
 end

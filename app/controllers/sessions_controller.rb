@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
         # associate the identity
         @identity.user = current_user
         @identity.save
-        HarvestLinksWorker.perform_async(current_user.id, @identity.provider_id)
+        HarvestLinksWorker.perform_async(@identity.user.id, @identity.provider_id)
         redirect_to root_url, notice: "Successfully linked that account!"
       end
     else
@@ -62,11 +62,9 @@ class SessionsController < ApplicationController
   private
 
   def after_login_flow
-    # if current_user.logged_in_at.nil?
-    #   HarvestLinksWorker.perform_async(@identity.user.id, @identity.provider_id)
-    # end
     if @just_logged_in
       current_user.update_attributes(logged_in_at: Time.now)
+      HarvestLinksWorker.perform_async(@identity.user.id, @identity.provider_id)
     end
   end
 end

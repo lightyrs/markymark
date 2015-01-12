@@ -1,46 +1,48 @@
 source 'https://rubygems.org'
 source 'https://rails-assets.org'
-ruby '2.1.2'
+ruby '2.1.5'
 
-gem 'rails', '4.0.4'
+gem 'rails', '4.2.0'
 gem 'mysql2'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'puma'
+gem 'squeel', github: 'danielrhodes/squeel'
+gem 'uglifier'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'jbuilder', '~> 1.2'
-gem 'bootstrap-sass', '~> 3.2.0'
-gem 'sass-rails', '>= 3.2'
+gem 'oj'
+gem 'jbuilder'
+gem 'bootstrap-sass'
+gem 'sass-rails'
 gem 'autoprefixer-rails'
 gem 'haml-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-pocket'
-gem 'simple_form', '>= 3.1.0.rc2'
-gem 'thin'
+gem 'simple_form'
 gem 'twitter'
 gem 'koala'
 gem 'randumb'
-gem 'nokogiri', '1.6.1'
-gem 'sinatra', '>= 1.3.0', require: nil
+gem 'slim'
+gem 'nokogiri'
+gem 'sinatra', require: nil
+gem 'sidekiq', '~> 3.3.0'
+gem 'sidekiq-unique-jobs'
 gem 'rb-gsl'
 gem 'madeleine'
 gem 'classifier'
 gem 'treat'
 gem 'omnicat-bayes'
 gem 'typhoeus'
-gem 'pismo', github: 'andyatkinson/pismo', branch: 'open_uri_redirections'
+gem 'pismo', github: 'mashable/pismo'
 gem 'parallel'
 gem 'metainspector'
 gem 'htmlentities'
 gem 'wikipedia'
-gem 'rocket_tag', git: 'git://github.com/legendetm/rocket_tag.git'
+gem 'rocket_tag', git: 'git://github.com/blotto/rocket_tag.git'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
-gem 'immigrant'
-gem 'guard-redis'
-gem 'guard-sidekiq'
 
 gem 'therubyracer', platforms: :ruby
 gem 'less-rails-bootstrap'
@@ -58,6 +60,7 @@ group :development do
   gem 'hub', require: nil
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'leader', git: 'https://github.com/halo/leader.git', require: false
 end
 
 group :development, :test do
@@ -82,7 +85,7 @@ group :test do
   gem 'email_spec'
 end
 
-gem 'ffi', '<1.9.3'
+gem 'ffi'
 
 # treat
 gem 'graphr'
@@ -112,5 +115,3 @@ gem 'fuzzy-string-match'
 gem 'levenshtein-ffi'
 gem 'tf-idf-similarity'
 gem 'kronic'
-
-gem 'sidekiq'

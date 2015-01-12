@@ -1,6 +1,6 @@
 class Classification < ActiveRecord::Base
 
-  validate :name, presence: true, uniqueness: { scope: :content_type }
+  validates :name, presence: true, uniqueness: { scope: :content_type }
 
   class << self
 

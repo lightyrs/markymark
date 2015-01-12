@@ -29,7 +29,6 @@ class Reaper
       @graph ||= GraphClient.new(@user.token(provider_id: Provider.facebook.id))
       links ||= @graph.links
       links.each_with_index do |link, index|
-        puts link.inspect.red
         if index == (links.count - 1)
           next_links = links.next_page
           harvest_links_from_facebook(next_links) if next_links.present?
@@ -49,8 +48,8 @@ class Reaper
       title = link['name']
       posted_at = DateTime.parse(link['created_time'])
       Link.create(
-        url: url, 
-        title: title, 
+        url: url,
+        title: title,
         posted_at: posted_at,
         user_id: @user.id,
         provider_id: Provider.facebook.id
@@ -76,7 +75,7 @@ class Reaper
             url = "#{link}"
             posted_at = tweet.created_at
             Link.create(
-              url: url, 
+              url: url,
               posted_at: posted_at,
               user_id: @user.id,
               provider_id: Provider.twitter.id
@@ -105,8 +104,8 @@ class Reaper
         title = link_hash['given_title'] || link_hash['resolved_title']
         posted_at = DateTime.strptime(link_hash['time_added'], '%s')
         Link.create(
-          url: url, 
-          title: title, 
+          url: url,
+          title: title,
           posted_at: posted_at,
           user_id: @user.id,
           provider_id: Provider.pocket.id

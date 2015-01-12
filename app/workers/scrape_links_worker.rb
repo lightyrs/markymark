@@ -2,13 +2,11 @@ class ScrapeLinksWorker
 
   include Sidekiq::Worker
 
-  sidekiq_options queue: :normal_priority, retry: 10
+  sidekiq_options queue: :normal_priority, unique: true, retry: 5
 
   def perform(user_id, provider_id)
-    ActiveRecord::Base.connection_pool.with_connection do
-      Link.scrape(user_id, provider_id)
-    end
-  rescue
+    Link.scrape(user_id, provider_id)
+  rescue StandardError
     raise StandardError
   end
 end

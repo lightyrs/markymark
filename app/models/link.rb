@@ -36,8 +36,8 @@ class Link < ActiveRecord::Base
 
     def scrape(user_id, provider_id)
       Link.where(user_id: user_id, provider_id: provider_id, scraped: false).
-        order('posted_at DESC').pluck([:id, :url]).in_groups_of(50) do |group|
-          ScrapeLinkGroupWorker.perform_async(group)
+        order('posted_at DESC').pluck(:id).in_groups_of(33).each_with_index do |group, i|
+          ScrapeLinkGroupWorker.perform_at(i.minutes.from_now, group)
       end
     end
   end
@@ -70,7 +70,7 @@ class Link < ActiveRecord::Base
       domain
     end
   end
-  
+
   private
 
   def queue_metadata_worker
@@ -81,7 +81,7 @@ class Link < ActiveRecord::Base
     begin
       meta_inspector_page = MetaInspector.new(self.url, timeout: 30, allow_redirections: :all, warn_level: :warn)
       pismo_page = Pismo::Document.new(self.url)
-      
+
       self.url = (meta_inspector_page.meta['og:url'] || meta_inspector_page.url) rescue self.url
       self.domain = meta_inspector_page.host.gsub('www.', '') rescue Addressable::URI.parse(self.url).host.gsub('www.', '')
       self.title = (pismo_page.title || meta_inspector_page.title) rescue self.title
